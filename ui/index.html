@@ -4,18 +4,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script lang="javascript" src="scripts.js"></script>
+  <script type="module" lang="javascript" src="scripts.js"></script>
   <link rel="stylesheet" href="styles.css" />
   <title>Document</title>
 </head>
 
-<body onload="loadBookList();">
+<body>
   <div id="bookList"></div>
-  <button class="menuButtons" id="menuButton" onclick="revealMenu();">&times;</button>
-  <button class="menuButtons" onclick="addBook2List();">add</button>
+  <button class="menuButtons" id="menuButton">&times;</button>
+  <button class="menuButtons">add</button>
   <button class="menuButtons">search</button>
   <button class="menuButtons">sort</button>
   <button class="menuButtons">options</button>
+
 </body>
 
 </html>

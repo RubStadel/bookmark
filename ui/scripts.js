@@ -1,15 +1,32 @@
 "use strict";
 
-let bookList = ["Children of Time", "Children of Ruin", "Children of Memory", "South of the Border, West of the Sun", "Norwegian Wood"];
+// import filesystem access from the Tauri API
+const { readTextFile, writeTextFile, BaseDirectory } = window.__TAURI__.fs;
+// Read the text file in the `$APPLOCALDATA/resources/books.json` path
+const booksJson = await readTextFile('resources\\books.json', { dir: BaseDirectory.AppLocalData });
+
+let bookList = JSON.parse(booksJson);
+loadBookList();
+
 let newYearAdded = false;
 let menuIsVisible = false;
 
+// eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
+document.getElementById("menuButton").addEventListener('click', revealMenu);
+document.getElementsByClassName("menuButtons").item(1).addEventListener('click', addBook2List);
+
 function loadBookList() {
-    for (let i = 0; i < bookList.length; i++) {
-        let book = document.createElement("p");
-        book.innerText = bookList[i];
+    for (let i = 0; i < bookList.books.length; i++) {
+        let book = document.createElement("button");
+        book.innerText = bookList.books[i].title;
+        book.addEventListener("click", revealMenu); // TODO: replace revealMenu() with opening of book-specific detail page
         document.getElementById("bookList").append(book);
     }
+}
+
+async function updateJSON() {
+    let booksJson = JSON.stringify(bookList);
+    await writeTextFile('resources\\books.json', booksJson, { dir: BaseDirectory.AppLocalData });
 }
 
 function addYear2List() {
@@ -27,10 +44,12 @@ function addYear2List() {
 function addBook2List() {
     addYear2List();
 
-    bookList.push("test");
-    let book = document.createElement("p");
-    book.innerText = bookList.slice(-1);
+    bookList.books.push({ title: "Children of Memory", author: "Adrian Tchaikovsky" }); // TODO: replace with option to insert detail information about the new book
+    let book = document.createElement("button");
+    book.innerText = bookList.books.slice(-1)[0].title;
     document.getElementById("bookList").append(book);
+
+    updateJSON();
 
     revealMenu();
 }

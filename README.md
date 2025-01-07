@@ -8,6 +8,10 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 ## Notes
 
+- **Erst Funktionalität erstellen, dann Aussehen/Design/Frontend optimieren!**
+
+- am Anfang ganze Datenbank (aus json) einlesen
+
 - beim Öffnen Animation wie Buch durchgeblättert wird und/oder wie Bücher in Regal sortiert werden
 - dabei wird lokale "Datenbank" gelesen (json-Datei?) oder neu erstellt, wenn nicht vorhanden
 - Grid aller Bücher, standardmäßig umgekehrt chronologisch sortiert, in der die Titel stehen und das Cover (in der Sichtbarkeit gedämpft) zu sehen ist
