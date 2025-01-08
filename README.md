@@ -6,11 +6,11 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 ---
 
-## Notes
+## Notizen
 
 - **Erst Funktionalität erstellen, dann Aussehen/Design/Frontend optimieren!**
 
-- am Anfang ganze Datenbank (aus json) einlesen
+- am Anfang ganze Datenbank (aus json) einlesen (statt on-demand das zu holen, was gerade benötigt wird)
 
 - beim Öffnen Animation wie Buch durchgeblättert wird und/oder wie Bücher in Regal sortiert werden
 - dabei wird lokale "Datenbank" gelesen (json-Datei?) oder neu erstellt, wenn nicht vorhanden
@@ -40,3 +40,38 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - Wenn Anfang == Ende, dann nur einmal anzeigen z.B. nur gelesen in "Mitte Oktober 2024" statt gelesen "Mitte Oktober - Mitte Oktober 2024"
 
 - Hinzugefügte Bilder werden in dedizierten Ordner kopiert. Für Bilder wird der relative Pfad in der json gespeichert. Dann werden die Bilder geladen, wenn Detaildaten eingeholt werden.
+
+## ToDo
+
+### Grundlegende Features
+
+- [x] am Anfang ganze Datenbank aus json einlesen
+- [ ] Seitenmanagement in Tauri anschauen/ausprobieren
+- [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?)
+- [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
+- [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
+- [ ] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
+- [ ] Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)
+- [ ] Entfernen von Bildern aus dem Unterordner (und json)
+- [ ] Anzeige von Büchern auf der Detailseite von Büchern
+- [ ] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden (so, dass man darauf zugreifen kann)
+
+### UI (Seiten/Fenster)
+
+- [x] Liste der Bücher in der Datenbank
+- [ ] neue Seite/Fenster/was_auch_immer für jedes Buch öffnen (Detailanzeige)
+- [ ] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
+- [ ] Auswahl-Popup (o.ä.) für die Sortierweise
+- [ ] Seite für Einstellungen
+
+### Nichtfunktionalitätsrelevante Features (Verschönerungen)
+
+- [ ] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen
+- [ ] Auswahlleiste auf der Hauptseite (Listenansicht) mit Icons versehen
+- [ ] Suchleiste beim Herunterziehen von ganz oben anzeigen
+- [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
+- [ ] Animationen beim Öffnen der App (siehe Notizen)
+- [ ] Animationen bei Seitenwechsel
+- [ ] Animationen bei Anwenden einer neuen Sortierweise
+- [ ] Animationen beim Anzeigen der Suchleiste
+- [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden

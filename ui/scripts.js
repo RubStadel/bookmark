@@ -1,6 +1,7 @@
 "use strict";
 
 // import filesystem access from the Tauri API
+// https://v1.tauri.app/v1/api/js/fs/
 const { readTextFile, writeTextFile, BaseDirectory } = window.__TAURI__.fs;
 // Read the text file in the `$APPLOCALDATA/resources/books.json` path
 const booksJson = await readTextFile('resources\\books.json', { dir: BaseDirectory.AppLocalData });
