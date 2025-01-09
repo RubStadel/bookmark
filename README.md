@@ -46,6 +46,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 ### Grundlegende Features
 
 - [x] am Anfang ganze Datenbank aus json einlesen
+- [x] Testen auf Android Studio (virtuelles Android-Gerät) ermöglichen
+- [ ] Testen auf Android-Gerät ermöglichen
 - [ ] Seitenmanagement in Tauri anschauen/ausprobieren
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen

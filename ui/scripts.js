@@ -1,13 +1,14 @@
 "use strict";
 
 // import filesystem access from the Tauri API
-// https://v1.tauri.app/v1/api/js/fs/
-const { readTextFile, writeTextFile, BaseDirectory } = window.__TAURI__.fs;
+// https://v2.tauri.app/plugin/file-system/#permissions
+const { resolveResource } = window.__TAURI__.path;
+const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 
 // Read the text file in the `$RESOURCE/resources/books.json` path
-const booksJson = await readTextFile('resources\\books.json', { dir: BaseDirectory.Resource });
+const booksJsonPath = await resolveResource('resources/books.json');
+const bookList = JSON.parse(await readTextFile(booksJsonPath));
 
-let bookList = JSON.parse(booksJson);
 loadBookList();
 
 let newYearAdded = false;
@@ -28,7 +29,7 @@ function loadBookList() {
 
 async function updateJSON() {
     let booksJson = JSON.stringify(bookList);
-    await writeTextFile('resources\\books.json', booksJson, { dir: BaseDirectory.AppLocalData });
+    await writeTextFile(booksJsonPath, booksJson);
 }
 
 function addYear2List() {
