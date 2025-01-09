@@ -20,7 +20,7 @@
         "copyFile": true,
         "exists": true,
         "scope": [
-          "$APPLOCALDATA/resources/*"
+          "$RESOURCE/resources/*"
         ]
       }
     },
@@ -48,7 +48,9 @@
         "providerShortName": null,
         "signingIdentity": null
       },
-      "resources": [],
+      "resources": [
+        "resources/*"
+      ],
       "shortDescription": "",
       "targets": "all",
       "windows": {
