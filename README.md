@@ -47,9 +47,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - [x] am Anfang ganze Datenbank aus json einlesen
 - [x] Testen auf Android Studio (virtuelles Android-Gerät) ermöglichen
-- [ ] Testen auf Android-Gerät ermöglichen
-- [ ] Seitenmanagement in Tauri anschauen/ausprobieren
-- [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?)
+- [x] Testen auf Android-Gerät ermöglichen (in Android Developer Einstellungen USB-Debugging erlauben, dann `cargo tauri android dev`)
+- [ ] Seitenmanagement in Tauri anschauen/ausprobieren (Rust Command, <https://v1.tauri.app/v1/guides/features/multiwindow/>, <https://www.youtube.com/watch?v=zZOcFz6W3kI>)
+- [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
 - [ ] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
@@ -68,7 +68,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 
-- [ ] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen
+- [x] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen
 - [ ] Auswahlleiste auf der Hauptseite (Listenansicht) mit Icons versehen
 - [ ] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
