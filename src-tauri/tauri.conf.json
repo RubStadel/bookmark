@@ -49,12 +49,24 @@
     "withGlobalTauri": true,
     "windows": [
       {
+        "label": "main",
         "fullscreen": false,
         "height": 800,
         "resizable": true,
         "title": "bookmark",
         "width": 400,
         "useHttpsScheme": true
+      },
+      {
+        "label": "test",
+        "create": false,
+        "url": "index2.html",
+        "height": 800,
+        "width": 400,
+        "x": 200,
+        "y": 200,
+        "resizable": false,
+        "title": "index2"
       }
     ],
     "security": {

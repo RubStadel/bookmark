@@ -48,7 +48,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] am Anfang ganze Datenbank aus json einlesen
 - [x] Testen auf Android Studio (virtuelles Android-Gerät) ermöglichen
 - [x] Testen auf Android-Gerät ermöglichen (in Android Developer Einstellungen USB-Debugging erlauben, dann `cargo tauri android dev`)
-- [ ] Seitenmanagement in Tauri anschauen/ausprobieren (Rust Command, <https://v1.tauri.app/v1/guides/features/multiwindow/>, <https://www.youtube.com/watch?v=zZOcFz6W3kI>)
+- [x] Seitenmanagement (WebviewWindow) in Tauri anschauen/ausprobieren (via Rust Command: [Rust Documentation for WebviewWindowBuilder](https://docs.rs/tauri/2.2.5/tauri/webview/struct.WebviewWindowBuilder.html "current (v2), also works for Android"))
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
@@ -58,13 +58,13 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Anzeige von Büchern auf der Detailseite von Büchern
 - [ ] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden (so, dass man darauf zugreifen kann)
 
-### UI (Seiten/Fenster)
+### UI (Seiten)
 
 - [x] Liste der Bücher in der Datenbank
-- [ ] neue Seite/Fenster/was_auch_immer für jedes Buch öffnen (Detailanzeige)
 - [ ] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
-- [ ] Auswahl-Popup (o.ä.) für die Sortierweise
+- [ ] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [ ] Seite für Einstellungen
+- [ ] Auswahl-Popup (o.ä.) für die Sortierweise
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 

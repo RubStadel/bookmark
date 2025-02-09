@@ -6,6 +6,8 @@ const { resolveResource } = window.__TAURI__.path;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 const { Window } = window.__TAURI__.window;
 const { Webview } = window.__TAURI__.webview;
+const { WebviewWindow } = window.__TAURI__.webviewWindow;
+const { invoke } = window.__TAURI__.core;
 
 // Read the text file in the `$RESOURCE/resources/books.json` path
 const booksJsonPath = await resolveResource('resources/books.json');
@@ -20,11 +22,14 @@ document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 
+// for testing purposes on windows only ((very limited) support for mouse input)
+document.getElementById("menuButton").addEventListener('click', newWindowCommand);
+
 function loadBookList() {
     for (let i = 0; i < bookList.books.length; i++) {
         let book = document.createElement("button");
         book.innerText = bookList.books[i].title;
-        book.addEventListener("click", newWindow); // TODO: replace revealMenu() with opening of book-specific detail page
+        // book.addEventListener("click", revealMenu); // TODO: replace revealMenu() with opening of book-specific detail page
         document.getElementById("bookList").append(book);
     }
 }
@@ -147,9 +152,9 @@ function clickMenuButton(e) {
     hideMenu();
 }
 
-function newWindow() {
-    const appWindow = new Window('uniqueLabel');
-    const webview = new Webview(appWindow, 'theUniqueLabel', {
-        url: 'https://github.com/tauri-apps/tauri'
-    });
+/// Create new WebviewWindow on mobile
+async function newWindowCommand() {
+    await invoke("create_window", { config: 1 });
+    /// alternatively:
+    // window.location.href = "index2.html";
 }
