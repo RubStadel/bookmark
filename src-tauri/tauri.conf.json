@@ -58,15 +58,15 @@
         "useHttpsScheme": true
       },
       {
-        "label": "test",
+        "label": "bookDetails",
         "create": false,
-        "url": "index2.html",
+        "url": "bookDetails.html",
         "height": 800,
         "width": 400,
         "x": 200,
         "y": 200,
         "resizable": false,
-        "title": "index2"
+        "title": "bookDetails"
       }
     ],
     "security": {

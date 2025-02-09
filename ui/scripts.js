@@ -4,9 +4,6 @@
 // https://v2.tauri.app/plugin/file-system/#permissions
 const { resolveResource } = window.__TAURI__.path;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
-const { Window } = window.__TAURI__.window;
-const { Webview } = window.__TAURI__.webview;
-const { WebviewWindow } = window.__TAURI__.webviewWindow;
 const { invoke } = window.__TAURI__.core;
 
 // Read the text file in the `$RESOURCE/resources/books.json` path
@@ -16,6 +13,7 @@ const bookList = JSON.parse(await readTextFile(booksJsonPath));
 loadBookList();
 
 let newYearAdded = false;
+let emitTimeout;
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
 document.getElementById("menu").addEventListener('touchstart', revealMenu);
@@ -23,13 +21,13 @@ document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 
 // for testing purposes on windows only ((very limited) support for mouse input)
-document.getElementById("menuButton").addEventListener('click', newWindowCommand);
+// document.getElementById("menuButton").addEventListener('click', () => { newWindow(1) });
 
 function loadBookList() {
     for (let i = 0; i < bookList.books.length; i++) {
         let book = document.createElement("button");
-        book.innerText = bookList.books[i].title;
-        // book.addEventListener("click", revealMenu); // TODO: replace revealMenu() with opening of book-specific detail page
+        book.innerText = bookList.books[i].Titel;
+        book.addEventListener("click", () => { newWindow(1, bookList.books[i].Titel) });
         document.getElementById("bookList").append(book);
     }
 }
@@ -54,9 +52,9 @@ function addYear2List() {
 function addBook2List() {
     addYear2List();
 
-    bookList.books.push({ title: "Children of Memory", author: "Adrian Tchaikovsky" }); // TODO: replace with option to insert detail information about the new book
+    bookList.books.push({ Titel: "Children of Memory", Autor: "Adrian Tchaikovsky" }); // TODO: replace with option to insert detail information about the new book
     let book = document.createElement("button");
-    book.innerText = bookList.books.slice(-1)[0].title;
+    book.innerText = bookList.books.slice(-1)[0].Titel;
     book.addEventListener("click", revealMenu);
     document.getElementById("bookList").append(book);
 
@@ -153,8 +151,13 @@ function clickMenuButton(e) {
 }
 
 /// Create new WebviewWindow on mobile
-async function newWindowCommand() {
-    await invoke("create_window", { config: 1 });
-    /// alternatively:
-    // window.location.href = "index2.html";
+/// config: 1 for bookDetails, 2 for settings (not implemented yet)
+async function newWindow(config, title) {
+    await invoke("create_window", { config: config });
+    emitTimeout = setTimeout(() => { emit_book_details(title) }, 150);              // timeout >100ms is necessary for the new WebviewWindow to be able to receive the emitted event
+}
+
+async function emit_book_details(title) {
+    await invoke("emit_book_details", { title: title });
+    clearTimeout(emitTimeout);
 }

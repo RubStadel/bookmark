@@ -23,8 +23,15 @@ body::-webkit-scrollbar {
     display: none;
 }
 
+h2 {
+    font-size: 1.5vh;
+    font-weight: normal;
+    color: grey;
+    margin: 1vh 0 -1.5vh 0;
+}
+
 p {
-    font-size: 2.5vh;
+    font-size: 2.25vh;
     margin: 1.5vh 0;
 }
 
@@ -42,15 +49,9 @@ p {
     transition: transform 0.35s ease-out, opacity 0.2s ease;
 }
 
-.menuButtons:hover {
-    padding-right: 10vw;
-    color: gold;
-}
-
 #menuButton {
     opacity: 1;
     border-radius: 50%;
-    /* border: solid 2px silver; */
     padding: 0.5rem 1.65rem;
     font-size: 4rem;
     z-index: 1;
@@ -69,4 +70,8 @@ p {
     border: none;
     width: 100%;
     text-align: left;
+}
+
+#editButton {
+    opacity: 1;
 }

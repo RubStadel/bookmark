@@ -1,12 +1,32 @@
 {
     "books": [
         {
-            "title": "Children of Time",
-            "author": "Adrian Tchaikovsky"
+            "Titel": "Children of Time",
+            "Autor": "Adrian Tchaikovsky",
+            "Sprache": "Englisch",
+            "Ort": "Berlin, Arendsee",
+            "angefangen": "Ende Dezember 2022",
+            "beendet": "Ende Dezember 2022",
+            "Genre": "Science Fiction",
+            "Reihe": "Children of Time, 1",
+            "Erscheinungsjahr": 2015,
+            "Land": "England",
+            "Notizen": "Weihnachstgeschenk an mich selbst (nach Empfehlung von HelloFutureMe)",
+            "Bilder": ""
         },
         {
-            "title": "Children of Ruin",
-            "author": "Adrian Tchaikovsky"
+            "Titel": "Children of Ruin",
+            "Autor": "Adrian Tchaikovsky",
+            "Sprache": "",
+            "Ort": "",
+            "angefangen": "",
+            "beendet": "",
+            "Genre": "Science Fiction",
+            "Reihe": "Children of Time, 2",
+            "Erscheinungsjahr": "",
+            "Land": "",
+            "Notizen": "",
+            "Bilder": ""
         }
     ]
 }

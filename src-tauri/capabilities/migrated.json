@@ -4,7 +4,7 @@
   "local": true,
   "windows": [
     "main",
-    "test"
+    "bookDetails"
   ],
   "permissions": [
     "core:default",

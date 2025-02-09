@@ -12,6 +12,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - am Anfang ganze Datenbank (aus json) einlesen (statt on-demand das zu holen, was gerade benötigt wird)
 
+- Datenbank wird aus "resources/books.json" gelesen und in "target/debug/resources/books.json" kopiert
+
 - beim Öffnen Animation wie Buch durchgeblättert wird und/oder wie Bücher in Regal sortiert werden
 - dabei wird lokale "Datenbank" gelesen (json-Datei?) oder neu erstellt, wenn nicht vorhanden
 - Grid aller Bücher, standardmäßig umgekehrt chronologisch sortiert, in der die Titel stehen und das Cover (in der Sichtbarkeit gedämpft) zu sehen ist
@@ -21,7 +23,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - Genres können selbst definiert werden und werden dann in eine Liste geschrieben, damit man diese auch für andere Bücher anwenden kann
 - Cover-Bilder können manuell hochgeladen werden
 - können mehrere Bilder (des physischen Buches/Einbands) hinzugefügt werden?
-- (alternative) minimalistische Ansicht, wo nur Titel in einer Liste angezeigt werden (?)
+- (alternative) minimalistische Ansicht, wo nur Titel in einer Liste angezeigt werden
 - jedes Buch hat folgende Felder:
   - Autor
   - Titel
@@ -29,8 +31,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - wo wurde es gelesen (auch gekauft/erhalten); freie Eingabe
   - wann wurde es gelesen (freie Eingabe für grobe Angaben oder genaue Daten)
   - Genre (Radio mit Möglichkeit eigene hinzuzufügen)
-  - Herkunftsland des Autors (?)
-  - Sprache(n), in der/denen es gelesen wurde & Originalsprache
+  - Herkunftsland des Autors
+  - Sprache in der es gelesen wurde
   - Bewertung (?)
   - Zugehörigkeit (bei Reihen)
   - Notizen (freie Eingabe für z.B. besondere Stellen, Zitate, äußere Begebenheiten, die es besonders gemacht haben, etc.)
@@ -55,14 +57,14 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
 - [ ] Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)
 - [ ] Entfernen von Bildern aus dem Unterordner (und json)
-- [ ] Anzeige von Büchern auf der Detailseite von Büchern
+- [ ] Anzeige von Bildern auf der Detailseite von Büchern
 - [ ] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden (so, dass man darauf zugreifen kann)
 
 ### UI (Seiten)
 
 - [x] Liste der Bücher in der Datenbank
 - [ ] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
-- [ ] neue Seite für jedes Buch öffnen (Detailanzeige)
+- [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [ ] Seite für Einstellungen
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
 
