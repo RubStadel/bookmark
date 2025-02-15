@@ -14,8 +14,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - Datenbank wird aus "resources/books.json" gelesen und in "target/debug/resources/books.json" kopiert
 
-- beim Öffnen Animation wie Buch durchgeblättert wird und/oder wie Bücher in Regal sortiert werden
-- dabei wird lokale "Datenbank" gelesen (json-Datei?) oder neu erstellt, wenn nicht vorhanden
+- beim Öffnen Animation wie Buch durchgeblättert wird und/oder wie Bücher in Regal sortiert werden (?)
+- dabei wird lokale "Datenbank" gelesen (json-Datei) oder neu erstellt, wenn nicht vorhanden
 - Grid aller Bücher, standardmäßig umgekehrt chronologisch sortiert, in der die Titel stehen und das Cover (in der Sichtbarkeit gedämpft) zu sehen ist
 - beim Hovern wird Cover komplett sichtbar
 - wenn man auf ein Buch klickt, wird das Cover sichtbar und groß. Beim Klicken auf das Cover direkt öffnet sich das Cover fullscreen, von wo man nach unten scrollen kann, um Infos zu sehen. Wird auf den Titel geklickt, kommt das Cover teilweise verdeckt und die ersten Infos sind direkt sichtbar
@@ -51,6 +51,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Testen auf Android Studio (virtuelles Android-Gerät) ermöglichen
 - [x] Testen auf Android-Gerät ermöglichen (in Android Developer Einstellungen USB-Debugging erlauben, dann `cargo tauri android dev`)
 - [x] Seitenmanagement (WebviewWindow) in Tauri anschauen/ausprobieren (via Rust Command: [Rust Documentation for WebviewWindowBuilder](https://docs.rs/tauri/2.2.5/tauri/webview/struct.WebviewWindowBuilder.html "current (v2), also works for Android"))
+- [ ] Sicherstellen, dass man beim Drücken des Android-Back-Buttons zur vorherigen Seite zurückkehrt
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
@@ -60,10 +61,10 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Anzeige von Bildern auf der Detailseite von Büchern
 - [ ] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden (so, dass man darauf zugreifen kann)
 
-### UI (Seiten)
+### UI (Seiten, etc.)
 
 - [x] Liste der Bücher in der Datenbank
-- [ ] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
+- [x] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [ ] Seite für Einstellungen
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
@@ -75,7 +76,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen)
-- [ ] Animationen bei Seitenwechsel
+- [ ] Animationen bei Seitenwechsel (?)
 - [ ] Animationen bei Anwenden einer neuen Sortierweise
 - [ ] Animationen beim Anzeigen der Suchleiste
 - [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden

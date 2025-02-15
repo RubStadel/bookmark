@@ -14,14 +14,16 @@ loadBookList();
 
 let newYearAdded = false;
 let emitTimeout;
+let bookFormVisible = false;
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
 document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
+document.getElementById("submitButton").addEventListener('click', addBook2List);
 
 // for testing purposes on windows only ((very limited) support for mouse input)
-// document.getElementById("menuButton").addEventListener('click', () => { newWindow(1) });
+document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 
 function loadBookList() {
     for (let i = 0; i < bookList.books.length; i++) {
@@ -37,6 +39,7 @@ async function updateJSON() {
     await writeTextFile(booksJsonPath, booksJson);
 }
 
+// FIXME: replace with real chronological sorting including h1 headers for new years/months
 function addYear2List() {
     if (newYearAdded) {
         return;
@@ -49,16 +52,47 @@ function addYear2List() {
     newYearAdded = true;
 }
 
+function toggleBookForm() {
+    let formDiv = document.getElementById("bookFormDiv");
+    if (bookFormVisible) {
+        formDiv.style.top = "-150%";
+        bookFormVisible = false;
+        document.getElementById("menuButton").style.opacity = "1";
+    } else {
+        formDiv.style.top = "0%";
+        bookFormVisible = true;
+        document.getElementById("menuButton").style.opacity = "0";
+    }
+}
+
 function addBook2List() {
+    // TODO: check for required content input
+
     addYear2List();
 
-    bookList.books.push({ Titel: "Children of Memory", Autor: "Adrian Tchaikovsky" }); // TODO: replace with option to insert detail information about the new book
-    let book = document.createElement("button");
-    book.innerText = bookList.books.slice(-1)[0].Titel;
-    book.addEventListener("click", revealMenu);
-    document.getElementById("bookList").append(book);
+    let book = {
+        Titel: document.getElementById("title").value,
+        Autor: document.getElementById("author").value,
+        Sprache: document.getElementById("language").value,
+        Ort: document.getElementById("location").value,
+        angefangen: `${document.getElementById("startPart").value} ${document.getElementById("startMonth").value} ${document.getElementById("startYear").value}`,
+        beendet: `${document.getElementById("endPart").value} ${document.getElementById("endMonth").value} ${document.getElementById("endYear").value}`,
+        Genre: document.getElementById("genre").value,
+        Erscheinungsjahr: document.getElementById("releaseYear").value,
+        Land: document.getElementById("country").value,
+        Notizen: document.getElementById("notes").value,
+        Bilder: ""                          // TODO: add support for pictures
+    };
+    console.log(book);
+    bookList.books.push(book);
+
+    let bookButton = document.createElement("button");
+    bookButton.innerText = bookList.books.slice(-1)[0].Titel;
+    bookButton.addEventListener("click", () => { newWindow(1, bookList.books.slice(-1)[0].Titel) });
+    document.getElementById("bookList").append(bookButton);                               // TODO: (re-)sort bookList chronologically
 
     updateJSON();
+    toggleBookForm();
 }
 
 function revealMenu() {
@@ -141,7 +175,7 @@ function clickMenuButton(e) {
 
     switch (button) {
         case 1:
-            addBook2List();
+            toggleBookForm();
             break;
 
         default:
