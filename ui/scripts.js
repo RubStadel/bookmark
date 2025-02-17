@@ -79,7 +79,7 @@ function sortJSON(book) {
     }
 
     bookList.books.splice(index, 0, newBook);
-    updateJSON();
+    updateDatalistOptions(newBook);
 }
 
 function toggleBookForm() {
@@ -91,11 +91,34 @@ function toggleBookForm() {
     } else {
         formDiv.style.top = "0%";
         bookFormVisible = true;
+        readDatalistOptions();
         document.getElementById("title").focus();
         document.getElementById("menuButton").style.opacity = "0";
     }
 }
 
+function readDatalistOptions() {
+    Object.keys(bookList.datalists).forEach(function (key) {
+        document.getElementById(key).replaceChildren();
+        for (let entry of bookList.datalists[key]) {
+            let option = document.createElement("option");
+            option.innerText = entry;
+            document.getElementById(key).append(option);
+        }
+    });
+}
+
+function updateDatalistOptions(newBook) {
+    let i = 0;
+    Object.keys(bookList.datalists).forEach(function (key) {
+        if (newBook[datalists[i]] && !bookList.datalists[key].find((entry) => entry == newBook[datalists[i]])) {
+            bookList.datalists[key].push(newBook[datalists[i]]);
+        }
+        i++;
+    });
+}
+
+let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 let parts = ["Anfang", "Mitte", "Ende"];
 let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 
@@ -108,6 +131,7 @@ function addBook2List() {
         angefangen: `${parts.indexOf(document.getElementById("startPart").value)} ${months.indexOf(document.getElementById("startMonth").value) + 1} ${document.getElementById("startYear").value}`,
         beendet: `${parts.indexOf(document.getElementById("endPart").value)} ${months.indexOf(document.getElementById("endMonth").value) + 1} ${document.getElementById("endYear").value}`,
         Genre: document.getElementById("genre").value,
+        Reihe: document.getElementById("series").value,
         Erscheinungsjahr: document.getElementById("releaseYear").value,
         Land: document.getElementById("country").value,
         Notizen: document.getElementById("notes").value,

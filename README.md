@@ -55,7 +55,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
-- [ ] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
+- [x] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
 - [ ] Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)
 - [ ] Entfernen von Bildern aus dem Unterordner (und json)
 - [ ] Anzeige von Bildern auf der Detailseite von Büchern

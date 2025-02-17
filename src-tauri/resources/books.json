@@ -28,5 +28,23 @@
             "Notizen": "",
             "Bilder": ""
         }
-    ]
+    ],
+    "datalists": {
+        "authors": [
+            "Adrian Tchaikovsky"
+        ],
+        "languages": [
+            "Deutsch",
+            "Englisch"
+        ],
+        "genres": [
+            "Science Fiction"
+        ],
+        "seriesDatalist": [
+            "Children of Time"
+        ],
+        "countries": [
+            "England"
+        ]
+    }
 }
