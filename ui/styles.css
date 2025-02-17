@@ -31,9 +31,7 @@ label {
     margin: 1vh 0 -1.5vh 0;
 }
 
-p,
-input,
-textarea {
+p {
     font-size: 2.25vh;
     margin: 1.5vh 0;
 }
@@ -41,7 +39,7 @@ textarea {
 .menuButtons {
     font-weight: bold;
     color: white;
-    background-color: black;
+    background-color: transparent;
     padding: 0 0 0 10vw;
     border: none;
     font-size: 1.75rem;
@@ -95,6 +93,7 @@ textarea {
     height: 6vh;
     border-radius: 2vh;
     font-size: 2.75vh;
+    font-weight: bold;
     color: black;
     background-color: darkgoldenrod;
 }
@@ -102,4 +101,26 @@ textarea {
 input,
 textarea {
     width: 95%;
+    margin: 0.5vh 0 1.5vh 0;
+    font-size: 2vh;
+}
+
+select {
+    font-size: 1.75vh;
+    margin-right: 2.5vw;
+}
+
+input,
+textarea,
+select {
+    border: 2px solid grey;
+    border-radius: 1.5vh;
+    background-color: transparent;
+    color: white;
+    padding: 0.5vh 2vw;
+}
+
+select>option {
+    background-color: black;
+    color: white;
 }

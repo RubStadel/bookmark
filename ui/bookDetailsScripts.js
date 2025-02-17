@@ -57,10 +57,10 @@ function determineReadDates(i) {
 
     if (start == end) {
         value.innerText = startDate;
-    } else if (start.split(" ").slice(1, 3) == end.split(" ").slice(1, 3)) {        // same month and year
+    } else if (start.split(" ")[1] == end.split(" ")[1] && start.split(" ")[2] == end.split(" ")[2]) {                      // same month and year
         value.innerText = `${startDate.split(" ")[0]} - ${endDate}`;
-    } else if (start.split(" ")[2] == end.split(" ")[2]) {                          // same year
-        value.innerText = `${startDate.split(" ").slice(0, 2)} - ${endDate}`;
+    } else if (start.split(" ")[2] == end.split(" ")[2]) {                                                                  // same year
+        value.innerText = `${startDate.split(" ")[0]} ${startDate.split(" ")[1]} - ${endDate}`;
     } else {
         value.innerText = `${startDate} - ${endDate}`;
     }

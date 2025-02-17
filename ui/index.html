@@ -20,24 +20,24 @@
   </div>
 
   <div id="bookFormDiv">
-    <form id="bookForm">
-      <label for="title">Titel:</label><br>
+    <form id="bookForm" autocomplete="off">
+      <label for="title">Titel</label><br>
       <input type="text" id="title"><br>
 
-      <label for="author">Autor:</label><br>
+      <label for="author">Autor</label><br>
       <input type="text" id="author" list="authors"><br>
       <datalist id="authors"></datalist>
 
-      <label for="language">Sprache:</label><br>
+      <label for="language">Sprache</label><br>
       <input type="text" id="language" list="languages"><br>
       <datalist id="languages">
         <option>deutsch</option>
       </datalist>
 
-      <label for="location">Ort:</label><br>
+      <label for="location">Ort</label><br>
       <input type="text" id="location"><br>
 
-      <label for="startPart">angefangen:</label><br>
+      <label for="startPart">angefangen</label><br>
       <select id="startPart">
         <option>Anfang</option>
         <option>Mitte</option>
@@ -56,9 +56,9 @@
         <option>November</option>
         <option>Dezember</option>
       </select>
-      <input type="text" id="startYear" maxlength="4" size="1"><br>
+      <input type="text" id="startYear" maxlength="4" size="1" style="width: initial;"><br>
 
-      <label for="endPart">beendet:</label><br>
+      <label for="endPart">beendet</label><br>
       <select id="endPart">
         <option>Anfang</option>
         <option>Mitte</option>
@@ -77,24 +77,24 @@
         <option>November</option>
         <option>Dezember</option>
       </select>
-      <input type="text" id="endYear" maxlength="4" size="1"><br>
+      <input type="text" id="endYear" maxlength="4" size="1" style="width: initial;"><br>
 
-      <label for="genre">Genre:</label><br>
+      <label for="genre">Genre</label><br>
       <input type="text" id="genre" list="genres"><br>
       <datalist id="genres"></datalist>
 
-      <label for="series">Reihe:</label><br>
+      <label for="series">Reihe</label><br>
       <input type="text" id="series" list="seriesDatalist"><br>
       <datalist id="seriesDatalist"></datalist>
 
-      <label for="releaseYear">Erscheinungsjahr:</label><br>
-      <input type="text" id="releaseYear" maxlength="4" size="1"><br>
+      <label for="releaseYear">Erscheinungsjahr</label><br>
+      <input type="text" id="releaseYear" maxlength="4" size="1" style="width: initial;"><br>
 
-      <label for="country">Land:</label><br>
+      <label for="country">Land</label><br>
       <input type="text" id="country" list="countries"><br>
       <datalist id="countries"></datalist>
 
-      <label for="notes">Notizen:</label><br>
+      <label for="notes">Notizen</label><br>
       <textarea id="notes" rows="5"></textarea><br>
 
       <!-- TODO: add possibility to add pictures -->

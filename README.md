@@ -65,6 +65,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - [x] Liste der Bücher in der Datenbank
 - [x] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
+- [ ] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [ ] Seite für Einstellungen
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
