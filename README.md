@@ -71,6 +71,13 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
 
 - **Detailseite als Singlepage-Inhalt neu erstellen!!!**
+  - loadBookDetails
+  - determineReadDates
+  - translateReadDates
+  - translateReadDates2Form
+  - editBookDetails
+  - toggleEditForm
+  - fillInEditForm
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 

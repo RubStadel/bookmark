@@ -95,7 +95,7 @@ function translateReadDates2Form(detail, startOrEnd) {
 }
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
-document.getElementById("editButton").addEventListener('click', toggleBookForm);
+document.getElementById("editButton").addEventListener('click', toggleEditForm);
 document.getElementById("submitButton").addEventListener('click', editBookDetails);
 
 function editBookDetails() {
@@ -126,10 +126,10 @@ function editBookDetails() {
     updateJSON();
 
     loadBookDetails(book.Titel);
-    toggleBookForm();
+    toggleEditForm();
 }
 
-function toggleBookForm() {
+function toggleEditForm() {
     let formDiv = document.getElementById("bookFormDiv");
     if (bookFormVisible) {
         formDiv.style.top = "-150%";
