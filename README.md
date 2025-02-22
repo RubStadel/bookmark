@@ -51,7 +51,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Testen auf Android Studio (virtuelles Android-Gerät) ermöglichen
 - [x] Testen auf Android-Gerät ermöglichen (in Android Developer Einstellungen USB-Debugging erlauben, dann `cargo tauri android dev`)
 - [x] Seitenmanagement (WebviewWindow) in Tauri anschauen/ausprobieren (via Rust Command: [Rust Documentation for WebviewWindowBuilder](https://docs.rs/tauri/2.2.5/tauri/webview/struct.WebviewWindowBuilder.html "current (v2), also works for Android"))
-- [ ] Sicherstellen, dass man beim Drücken des Android-Back-Buttons zur vorherigen Seite zurückkehrt
+- [ ] Sicherstellen, dass man beim Drücken des Android-Back-Buttons zur vorherigen Seite zurückkehrt (via Kotlin-Plugin: [Doku](https://v2.tauri.app/develop/plugins/develop-mobile/), [GitHub-Issue](https://github.com/tauri-apps/tauri/issues/8142))
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
@@ -65,7 +65,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - [x] Liste der Bücher in der Datenbank
 - [x] Eingabefenster für neue Bücher, die der Datenbank hinzugefügt werden
-- [ ] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
+- [x] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [ ] Seite für Einstellungen
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
@@ -75,7 +75,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen
 - [ ] Auswahlleiste auf der Hauptseite (Listenansicht) mit Icons versehen
 - [ ] Suchleiste beim Herunterziehen von ganz oben anzeigen
-- [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
+- [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden) [Plugin-Doku](https://github.com/wyhaya/tauri-plugin-theme "GitHub")
 - [ ] Animationen beim Öffnen der App (siehe Notizen)
 - [ ] Animationen bei Seitenwechsel (?)
 - [ ] Animationen bei Anwenden einer neuen Sortierweise

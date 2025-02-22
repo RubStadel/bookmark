@@ -250,7 +250,7 @@ function clickMenuButton(e) {
 /// config: 1 for bookDetails, 2 for settings (not implemented yet)
 async function newWindow(config, title) {
     await invoke("create_window", { config: config });
-    emitTimeout = setTimeout(() => { emit_book_details(title) }, 150);              // timeout >100ms is necessary for the new WebviewWindow to be able to receive the emitted event
+    emitTimeout = setTimeout(() => { emit_book_details(title) }, 200);              // timeout >100ms is necessary for the new WebviewWindow to be able to receive the emitted event
 }
 
 async function emit_book_details(title) {
