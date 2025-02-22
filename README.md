@@ -70,6 +70,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Seite für Einstellungen
 - [ ] Auswahl-Popup (o.ä.) für die Sortierweise
 
+- **Detailseite als Singlepage-Inhalt neu erstellen!!!**
+
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 
 - [x] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen

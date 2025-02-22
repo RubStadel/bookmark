@@ -257,3 +257,11 @@ async function emit_book_details(title) {
     await invoke("emit_book_details", { title: title });
     clearTimeout(emitTimeout);
 }
+
+window.androidBackCallback = function () {
+    // Something you have to do when back button pressed
+    console.log("back button pressed");
+
+    // if (nothingToDo) return true; // which will do the default android back
+    return false; // the android back will be prevented
+}

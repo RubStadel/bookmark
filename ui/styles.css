@@ -73,6 +73,13 @@ p {
     text-align: left;
 }
 
+#bookDetails {
+    position: absolute;
+    top: 150%;
+    z-index: 1;
+    transition: 0.5s ease-out;
+}
+
 #editButton {
     opacity: 1;
 }
