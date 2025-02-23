@@ -1,25 +1,29 @@
-// "use strict";
+"use strict";
 
 // import filesystem access from the Tauri API
 // https://v2.tauri.app/plugin/file-system/#permissions
 const { resolveResource } = window.__TAURI__.path;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
-const { invoke } = window.__TAURI__.core;
 
-// Read the text file in the `$RESOURCE/resources/books.json` path
+// read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
 const booksJsonPath = await resolveResource('resources/books.json');
 const bookList = JSON.parse(await readTextFile(booksJsonPath));
 
 loadBookList();
 
-let emitTimeout;
+/// global variable definitions
+
 let index;
 let bookFormVisible = false;
+let bookDetailsVisible = false;
 
 let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
+let bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
 let parts = ["Anfang", "Mitte", "Ende"];
 let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 let keys = { Titel: "title", Autor: "author", Sprache: "language", Ort: "location", Genre: "genre", Reihe: "series", Erscheinungsjahr: "releaseYear", Land: "country", Notizen: "notes" };
+
+/// event listeners
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
 document.getElementById("menu").addEventListener('touchstart', revealMenu);
@@ -27,9 +31,23 @@ document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
 
-// for testing purposes on windows only ((very limited) support for mouse input)
+// move the book form up when focuseing the lower elements so that the keyboard does not block them
+for (let i = 0; i < bottomElements.length; i++) {
+    document.getElementById(bottomElements[i]).addEventListener('focus', () => { scrollForm(10 * (i + 1)) });
+    document.getElementById(bottomElements[i]).addEventListener('blur', resetFormHeight);
+}
+
+// for testing on windows only ((very limited) support for mouse input)
 document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 
+/// function definitions
+
+/**
+ * Loads the books from the json list into the book list.
+ * 
+ * Adds h1 headers for each year that a book has been read in.
+ * Each book is represented as a button in the list. When clicking on this button, the detail page is opened.
+ */
 function loadBookList() {
     document.getElementById("bookList").replaceChildren();
 
@@ -49,11 +67,20 @@ function loadBookList() {
     }
 }
 
+/**
+ * Updates the json file by overwriting it with the contents of the json list.
+ */
 async function updateJSON() {
     let booksJson = JSON.stringify(bookList);
     await writeTextFile(booksJsonPath, booksJson);
 }
 
+/**
+ * Sorts the json file chronological order by comparing their read dates.
+ * 
+ * Does not write to the json file directly. updateJSON() has to be called afterwards!
+ * @param {object} book - object containing the books details
+ */
 function sortJSON(book) {
     let newBook = book;
     let index = 0;
@@ -87,6 +114,12 @@ function sortJSON(book) {
     updateDatalistOptions(newBook);
 }
 
+/**
+ * Toggles the book form for adding details of a new book.
+ * 
+ * Loads the datalist options from the json file for the datalist tags.
+ * Puts focus on the top-most input element (title).
+ */
 function toggleBookForm() {
     let formDiv = document.getElementById("bookFormDiv");
     if (bookFormVisible) {
@@ -100,9 +133,13 @@ function toggleBookForm() {
         document.getElementById("title").focus();
         document.getElementById("menuButton").style.opacity = "0";
         document.getElementById("submitButton").addEventListener('click', addBook2List);
+        window.androidBackCallback = closeForm;
     }
 }
 
+/**
+ * Adds the options for the datalist tags in the book form by reading them from the json file.
+ */
 function readDatalistOptions() {
     Object.keys(bookList.datalists).forEach(function (key) {
         document.getElementById(key).replaceChildren();
@@ -114,6 +151,12 @@ function readDatalistOptions() {
     });
 }
 
+/**
+ * Updates the datalist options in the json file.
+ * 
+ * If a new entry has been made in a datalist element, that string is added to the datalists list in the json file.
+ * @param {object} newBook - object containing the details of the newly added book
+ */
 function updateDatalistOptions(newBook) {
     let i = 0;
     Object.keys(bookList.datalists).forEach(function (key) {
@@ -124,6 +167,10 @@ function updateDatalistOptions(newBook) {
     });
 }
 
+/**
+ * Gathers the details put into the book form and returns them in the form of an object.
+ * @returns object containing the details of the new book
+ */
 function getBookFromForm() {
     return {
         Titel: document.getElementById("title").value,
@@ -141,6 +188,15 @@ function getBookFromForm() {
     };
 }
 
+/**
+ * Adds the new book to the book list.
+ * 
+ * Checks if all required fields have been provided and if so, resets the form.
+ * Adds a new button to the book list that opens the detail page for that book when clicked on.
+ * Determines the position of the new book in the book list and inserts it so that the list is chronologically sorted.
+ * Writes the sorted book list into the json file.
+ * Reloads the json list and re-builds the book list, now including the newly added book.
+ */
 function addBook2List() {
     let book = getBookFromForm();
 
@@ -163,6 +219,9 @@ function addBook2List() {
     loadBookList();
 }
 
+/**
+ * Reveals the menu buttons in an animation and rotates the icon on the menu button.
+ */
 function revealMenu() {
     resetButtonHighlight();
     let buttons = document.getElementsByClassName("menuButtons");
@@ -175,6 +234,9 @@ function revealMenu() {
     }
 }
 
+/**
+ * Hides the menu buttons and rotates the icon on the menu button.
+ */
 function hideMenu() {
     let buttons = document.getElementsByClassName("menuButtons");
     buttons[0].style.transform = "rotate(45deg)";
@@ -184,13 +246,33 @@ function hideMenu() {
     }
 }
 
+/**
+ * Identifies and highlights the menu button that the user is hovering over.
+ * If the user is hovering over the menu button, nothing is highlighted.
+ * Used as the touchmove eventListener of the menu.
+ * @param {Event} e - touch event
+ */
+function highlightMenu(e) {
+    let button = identifyMenuButton(e);
+
+    if (button) {
+        highlightButton(button);
+    } else {
+        resetButtonHighlight();
+    }
+}
+
+/**
+ * Identifies the menu button the user is hovering over by evaluating the position of the current touch event.
+ * Values are hardcoded based on empirical findings on my personal phone (there is a weird offset at the bottom).
+ * @param {Event} e - touch event
+ * @returns {number} button - index of the hovered over button in the menu
+ */
 function identifyMenuButton(e) {
     const { touches, changedTouches } = e.originalEvent ?? e;
     const touch = touches[0] ?? changedTouches[0];
-    let x = touch.pageX;
     let y = touch.clientY;
 
-    let X = screen.width;
     let Y = screen.height;
 
     y = Y - y;
@@ -212,16 +294,10 @@ function identifyMenuButton(e) {
     return button;
 }
 
-function highlightMenu(e) {
-    let button = identifyMenuButton(e);
-
-    if (button) {
-        highlightButton(button);
-    } else {
-        resetButtonHighlight();
-    }
-}
-
+/**
+ * Highlights the button the user is hovering over by translating it horizontally and changing the color to gold.
+ * @param {number} button - index of the hovered over button in the menu
+ */
 function highlightButton(button) {
     resetButtonHighlight();
     let b = document.getElementsByClassName("menuButtons").item(button);
@@ -229,6 +305,9 @@ function highlightButton(button) {
     b.style.paddingRight = "10vw";
 }
 
+/**
+ * Resets the button color and horizontal translation for all menu buttons.
+ */
 function resetButtonHighlight() {
     Array.from(document.getElementsByClassName("menuButtons")).forEach(
         function (element) {
@@ -238,6 +317,10 @@ function resetButtonHighlight() {
     );
 }
 
+/**
+ * Activates the button the touch was released over.
+ * @param {Event} e - touch event
+ */
 function clickMenuButton(e) {
     let button = identifyMenuButton(e);
 
@@ -246,33 +329,49 @@ function clickMenuButton(e) {
             toggleBookForm();
             break;
 
+        // TODO: add  functionality for other buttons
         default:
             break;
     }
     hideMenu();
 }
 
-/// Create new WebviewWindow on mobile
-/// config: 1 for bookDetails, 2 for settings (not implemented yet)
-async function newWindow(config, title) {
-    await invoke("create_window", { config: config });
-    emitTimeout = setTimeout(() => { emit_book_details(title) }, 200);              // timeout >100ms is necessary for the new WebviewWindow to be able to receive the emitted event
+document.addEventListener('touchmove', revealSearchBar);
+// document.getElementById("bookList").addEventListener('touchmove', revealSearchBar);
+function revealSearchBar() {
+    if (window.scrollY == 0) {
+        console.log("top");                 // TODO: add functionality to reveal search bar
+    }
 }
 
-async function emit_book_details(title) {
-    await invoke("emit_book_details", { title: title });
-    clearTimeout(emitTimeout);
+/**
+ * Scrolls the book form up forcibly by moving some of it out of screen.
+ * @param {number} top - percentage that the form is moved up by
+ */
+function scrollForm(top) {
+    document.getElementById("bookFormDiv").style.height = "150%";
+    document.getElementById("bookFormDiv").style.top = `-${top}%`;
 }
 
-/// bookDetails
+/**
+ * Resets the book form to its original height and scroll position after being forced up to prevent the keyboard from covering form elements.
+ * Called when form elements are not focused anymore (blurred).
+ */
+function resetFormHeight() {
+    document.getElementById("bookFormDiv").style.height = "100%";
+    document.getElementById("bookFormDiv").style.top = "0%";
+}
+
+/// bookDetails "page"
 
 /**
  * Opens the bookDetails "page".
  * Sets closeBookDetails as the functionality for when the android back button is activated.
  */
 function openBookDetails() {
-    document.getElementById("bookDetails").style.left = "-1%";
+    document.getElementById("bookDetails").style.right = "0%";
     document.getElementById("menuButton").style.opacity = "0";
+    bookDetailsVisible = true;
     window.androidBackCallback = closeBookDetails;
 }
 
@@ -281,8 +380,9 @@ function openBookDetails() {
  * @returns always false so that the default android back function will be prevented
  */
 function closeBookDetails() {
-    document.getElementById("bookDetails").style.left = "150%";
+    document.getElementById("bookDetails").style.right = "150%";
     document.getElementById("menuButton").style.opacity = "1";
+    bookDetailsVisible = false;
     window.androidBackCallback = () => { return true };
 
     return false;
@@ -381,7 +481,26 @@ function toggleEditForm() {
         document.getElementById("title").focus();
         document.getElementById("editButton").style.opacity = "0";
         document.getElementById("submitButton").addEventListener('click', editBookDetails);
+        window.androidBackCallback = closeForm;
     }
+}
+
+/**
+ * Closes the book form no matter which function it took (new book vs. edit).
+ * Resets the android back button callback to the correct functionality based on whether or not the bookDetails "page" is visible.
+ */
+function closeForm() {
+    document.getElementById("bookFormDiv").style.top = "-150%";
+    bookFormVisible = false;
+    document.getElementById("editButton").style.opacity = "1";
+    document.getElementById("menuButton").style.opacity = "1";
+
+    window.androidBackCallback = () => { return true };
+    if (bookDetailsVisible) {
+        window.androidBackCallback = closeBookDetails;
+    }
+
+    return false;
 }
 
 /**

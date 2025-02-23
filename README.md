@@ -52,6 +52,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Testen auf Android-Gerät ermöglichen (in Android Developer Einstellungen USB-Debugging erlauben, dann `cargo tauri android dev`)
 - [x] Seitenmanagement (WebviewWindow) in Tauri anschauen/ausprobieren (via Rust Command: [Rust Documentation for WebviewWindowBuilder](https://docs.rs/tauri/2.2.5/tauri/webview/struct.WebviewWindowBuilder.html "current (v2), also works for Android"))
 - [x] Sicherstellen, dass man beim Drücken des Android-Back-Buttons zur vorherigen Seite zurückkehrt (via Kotlin-Plugin: [Doku](https://v2.tauri.app/develop/plugins/develop-mobile/), [GitHub-Issue](https://github.com/tauri-apps/tauri/issues/8142))
+- [x] Sicherstellen, dass man Eingabebereiche sehen kann (nicht von der Android-Tastatur verdeckt)
 - [ ] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [ ] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
