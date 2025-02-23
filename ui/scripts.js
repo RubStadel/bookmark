@@ -264,28 +264,28 @@ async function emit_book_details(title) {
     clearTimeout(emitTimeout);
 }
 
-window.androidBackCallback = function () {
-    // Something you have to do when back button pressed
-    console.log("back button pressed");
-
-    // if (nothingToDo) return true; // which will do the default android back
-    return false; // the android back will be prevented
-}
+/// bookDetails
 
 /**
  * Opens the bookDetails "page".
+ * Sets closeBookDetails as the functionality for when the android back button is activated.
  */
 function openBookDetails() {
     document.getElementById("bookDetails").style.left = "-1%";
     document.getElementById("menuButton").style.opacity = "0";
+    window.androidBackCallback = closeBookDetails;
 }
 
 /**
  * Closes the bookDetails "page".
+ * @returns always false so that the default android back function will be prevented
  */
 function closeBookDetails() {
     document.getElementById("bookDetails").style.left = "150%";
     document.getElementById("menuButton").style.opacity = "1";
+    window.androidBackCallback = () => { return true };
+
+    return false;
 }
 
 /**
