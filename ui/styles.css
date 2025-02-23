@@ -3,7 +3,7 @@ body {
     margin: 0px;
     background: black;
     font-family: 'Roboto', sans-serif;
-    /* overflow: hidden; */
+    overflow-x: hidden;
     scrollbar-width: none;
     color: white;
     display: grid;
@@ -73,25 +73,32 @@ p {
     text-align: left;
 }
 
+.pageFiller {
+    background-color: black;
+    height: 100%;
+    width: 90%;
+    padding: 0 5vw;
+}
+
 #bookDetails {
     position: absolute;
-    top: 150%;
+    left: 150%;
     z-index: 1;
-    transition: 0.5s ease-out;
+    transition: 0.25s ease-out;
+    border-left: 2.5px solid grey;
 }
 
 #editButton {
     opacity: 1;
+    position: absolute;
+    bottom: 5vh;
+    right: 12.5vw;
 }
 
 #bookFormDiv {
     z-index: 2;
-    height: 100%;
-    width: 90%;
-    padding-left: 5vw;
     position: absolute;
     top: -150%;
-    background-color: black;
     transition: 0.5s ease-out;
 }
 

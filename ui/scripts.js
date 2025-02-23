@@ -12,15 +12,20 @@ const bookList = JSON.parse(await readTextFile(booksJsonPath));
 
 loadBookList();
 
-let newYearAdded = false;
 let emitTimeout;
+let index;
 let bookFormVisible = false;
+
+let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
+let parts = ["Anfang", "Mitte", "Ende"];
+let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+let keys = { Titel: "title", Autor: "author", Sprache: "language", Ort: "location", Genre: "genre", Reihe: "series", Erscheinungsjahr: "releaseYear", Land: "country", Notizen: "notes" };
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
 document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
-document.getElementById("submitButton").addEventListener('click', addBook2List);
+document.getElementById("editButton").addEventListener('click', toggleEditForm);
 
 // for testing purposes on windows only ((very limited) support for mouse input)
 document.getElementById("menuButton").addEventListener('click', toggleBookForm);
@@ -39,7 +44,7 @@ function loadBookList() {
 
         let book = document.createElement("button");
         book.innerText = bookList.books[i].Titel;
-        book.addEventListener("click", () => { newWindow(1, bookList.books[i].Titel) });
+        book.addEventListener("click", () => loadBookDetails(bookList.books[i].Titel));
         document.getElementById("bookList").append(book);
     }
 }
@@ -94,6 +99,7 @@ function toggleBookForm() {
         readDatalistOptions();
         document.getElementById("title").focus();
         document.getElementById("menuButton").style.opacity = "0";
+        document.getElementById("submitButton").addEventListener('click', addBook2List);
     }
 }
 
@@ -118,12 +124,8 @@ function updateDatalistOptions(newBook) {
     });
 }
 
-let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
-let parts = ["Anfang", "Mitte", "Ende"];
-let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-
-function addBook2List() {
-    let book = {
+function getBookFromForm() {
+    return {
         Titel: document.getElementById("title").value,
         Autor: document.getElementById("author").value,
         Sprache: document.getElementById("language").value,
@@ -137,6 +139,10 @@ function addBook2List() {
         Notizen: document.getElementById("notes").value,
         Bilder: ""                          // TODO: add support for pictures
     };
+}
+
+function addBook2List() {
+    let book = getBookFromForm();
 
     if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
         return;
@@ -146,7 +152,7 @@ function addBook2List() {
 
     let bookButton = document.createElement("button");
     bookButton.innerText = book.Titel;
-    bookButton.addEventListener("click", () => { newWindow(1, book.Titel) });
+    bookButton.addEventListener("click", () => loadBookDetails(book.Titel));
     document.getElementById("bookList").append(bookButton);
 
     sortJSON(book);
@@ -264,4 +270,164 @@ window.androidBackCallback = function () {
 
     // if (nothingToDo) return true; // which will do the default android back
     return false; // the android back will be prevented
+}
+
+/**
+ * Opens the bookDetails "page".
+ */
+function openBookDetails() {
+    document.getElementById("bookDetails").style.left = "-1%";
+    document.getElementById("menuButton").style.opacity = "0";
+}
+
+/**
+ * Closes the bookDetails "page".
+ */
+function closeBookDetails() {
+    document.getElementById("bookDetails").style.left = "150%";
+    document.getElementById("menuButton").style.opacity = "1";
+}
+
+/**
+ * Opens the bookDetails "page" and loads the details of the selected book by searching the json list for the title.
+ * @param {string} title - title of the selected book
+ */
+function loadBookDetails(title) {
+    openBookDetails();
+    document.getElementById("detailsList").replaceChildren();
+
+    for (let i = 0; i < bookList.books.length; i++) {
+        if (bookList.books[i].Titel != title) {
+            continue
+        }
+        index = i;
+        Object.keys(bookList.books[i]).forEach(function (key) {
+            if (bookList.books[i][key]) {
+                if (key == "angefangen") {
+                    determineReadDates(i);
+                } else if (key == "beendet") {
+
+                } else {
+                    let property = document.createElement("h2");
+                    property.innerText = key;
+
+                    let value = document.createElement("p");
+                    value.innerText = bookList.books[i][key];
+
+                    document.getElementById("detailsList").append(property);
+                    document.getElementById("detailsList").append(value);
+                }
+            }
+        });
+    }
+}
+
+/**
+ * Adds the read dates to the bookDetails page.
+ * Conditionally formats the read dates if there is some overlap between start and end.
+ * @param {number} i - index of the selected book (for lookup of the read dates from json list)
+ */
+function determineReadDates(i) {
+    let property = document.createElement("h2");
+    property.innerText = "gelesen";
+    let value = document.createElement("p");
+
+    let start = bookList.books[i]["angefangen"];
+    let end = bookList.books[i]["beendet"];
+    let startDate = translateReadDates(start);
+    let endDate = translateReadDates(end);
+
+    if (start == end) {
+        value.innerText = startDate;
+    } else if (start.split(" ")[1] == end.split(" ")[1] && start.split(" ")[2] == end.split(" ")[2]) {                      // same month and year
+        value.innerText = `${startDate.split(" ")[0]} - ${endDate}`;
+    } else if (start.split(" ")[2] == end.split(" ")[2]) {                                                                  // same year
+        value.innerText = `${startDate.split(" ")[0]} ${startDate.split(" ")[1]} - ${endDate}`;
+    } else {
+        value.innerText = `${startDate} - ${endDate}`;
+    }
+    document.getElementById("detailsList").append(property);
+    document.getElementById("detailsList").append(value);
+}
+
+/**
+ * Translates the read dates from integers (datalist option indices) to strings (part and month).
+ * @param {string} date - date as read from the json list (e.g. "0 1 2023")
+ * @returns {string} date as string (e.g. "Anfang Januar 2023")
+ */
+function translateReadDates(date) {
+    let splitDate = date.split(" ");
+    let part = parts[splitDate[0]];
+    let month = months[splitDate[1] - 1];
+    let year = splitDate[2];
+
+    return `${part} ${month} ${year}`;
+}
+
+/**
+ * Toggles the form for editing book details.
+ */
+function toggleEditForm() {
+    let formDiv = document.getElementById("bookFormDiv");
+    if (bookFormVisible) {
+        formDiv.style.top = "-150%";
+        bookFormVisible = false;
+        document.getElementById("editButton").style.opacity = "1";
+    } else {
+        formDiv.style.top = "0%";
+        bookFormVisible = true;
+        readDatalistOptions();
+        fillInEditForm();
+        document.getElementById("title").focus();
+        document.getElementById("editButton").style.opacity = "0";
+        document.getElementById("submitButton").addEventListener('click', editBookDetails);
+    }
+}
+
+/**
+ * Fills the form for editing book details with the information that is currently saved in the json.
+ */
+function fillInEditForm() {
+    const book = bookList.books[index];
+    Object.keys(book).forEach(function (key) {
+        if (book[key]) {
+            if (key == "angefangen") {
+                translateReadDates2Form(book[key], "start");
+            } else if (key == "beendet") {
+                translateReadDates2Form(book[key], "end");
+            } else {
+                document.getElementById(keys[key]).value = book[key];
+            }
+        }
+    });
+}
+
+/**
+ * Fills the read dates into the select tags of the form for editing book details.
+ * @param {string} date - date as read from the json list (e.g. "0 1 2023")
+ * @param {string} startOrEnd - indicator if detail is start or end date, also used to select id of select element to fill
+ */
+function translateReadDates2Form(date, startOrEnd) {
+    let splitDate = date.split(" ");
+    document.getElementById(startOrEnd + "Part").value = parts[splitDate[0]];
+    document.getElementById(startOrEnd + "Month").value = months[splitDate[1] - 1];
+    document.getElementById(startOrEnd + "Year").value = splitDate[2];
+}
+
+function editBookDetails() {
+    let book = getBookFromForm();
+
+    if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
+        return;
+    }
+
+    document.getElementById("bookForm").reset();
+
+    bookList.books.splice(index, 1);
+
+    sortJSON(book);
+    updateJSON();
+
+    loadBookDetails(book.Titel);
+    toggleEditForm();
 }
