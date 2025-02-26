@@ -3,6 +3,9 @@
 
 <head>
   <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script type="module" lang="javascript" src="scripts.js"></script>
   <link rel="stylesheet" href="styles.css" />
@@ -13,16 +16,16 @@
   <!-- TODO: add search bar -->
   <div id="bookList"></div>
   <div id="menu">
-    <button class="menuButtons" id="menuButton">&times;</button>
-    <button class="menuButtons">add</button>
-    <button class="menuButtons">search</button>
-    <button class="menuButtons">sort</button>
-    <button class="menuButtons">options</button>
+    <button class="menuButtons" id="menuButton"><ion-icon name="close-outline"></ion-icon></button>
+    <button class="menuButtons">add<ion-icon name="add-outline"></ion-icon></button>
+    <button class="menuButtons">search<ion-icon name="search-outline"></ion-icon></button>
+    <button class="menuButtons">sort<ion-icon name="swap-vertical-outline"></ion-icon></button>
+    <button class="menuButtons">settings<ion-icon name="settings-outline"></ion-icon></button>
   </div>
 
   <div class="pageFiller" id="bookDetails">
     <div id="detailsList"></div>
-    <div class="menuButtons" id="editButton">&exponentiale;</div> <!-- TODO: add pencil icon -->
+    <div id="editButton"><ion-icon name="pencil-outline"></ion-icon></div>
   </div>
 
   <div class="pageFiller" id="bookFormDiv">
@@ -106,6 +109,9 @@
       <input type="button" value="Fertig" id="submitButton">
     </form>
   </div>
+
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 
 </html>

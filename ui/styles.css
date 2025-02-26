@@ -1,16 +1,14 @@
 body {
     height: 100%;
     margin: 0px;
+    font-family: "Outfit", sans-serif;
     background: black;
-    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
     scrollbar-width: none;
     color: white;
     display: grid;
     grid-template-columns: 90%;
     justify-content: center;
-    /* temp: */
-    font-family: "BHT Case Micro", sans-serif;
     -webkit-user-select: none;
     /* Safari */
     -ms-user-select: none;
@@ -40,27 +38,33 @@ p {
     font-weight: bold;
     color: white;
     background-color: transparent;
-    padding: 0 0 0 10vw;
     border: none;
-    font-size: 1.75rem;
+    font-size: 1.25rem;
     opacity: 0;
     position: fixed;
     bottom: 5vh;
     right: 7.5vw;
-    transition: transform 0.35s ease-out, opacity 0.2s ease;
+    transition: transform 0.35s ease-out, opacity 0.2s ease, translate 0.15s ease-out;
 }
 
 #menuButton {
     opacity: 1;
-    border-radius: 50%;
-    padding: 0.5rem 1.65rem;
-    font-size: 4rem;
     z-index: 1;
     transform: rotate(45deg);
 }
 
 #menuButton:hover {
     color: white;
+}
+
+ion-icon {
+    translate: 0 0.5vh;
+    font-size: 1.2rem;
+    padding-left: 3.5vw;
+}
+
+#menuButton>ion-icon {
+    font-size: 3.5rem;
 }
 
 #bookList>button {
@@ -92,6 +96,10 @@ p {
     position: absolute;
     bottom: 5vh;
     right: 12.5vw;
+}
+
+#editButton>ion-icon {
+    font-size: 2rem;
 }
 
 #bookFormDiv {

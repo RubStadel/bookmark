@@ -74,11 +74,13 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 
 - [x] Auswahlleiste auf der Hauptseite (Listenansicht) beim Halten des Knopfes sichtbar machen
-- [ ] Auswahlleiste auf der Hauptseite (Listenansicht) mit Icons versehen
+- [x] Auswahlleiste auf der Hauptseite (Listenansicht) mit Icons versehen
+- [x] Animationen für die Auswahlleiste auf der Hauptseite (Listenansicht)
+- [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [ ] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden) [Plugin-Doku](https://github.com/wyhaya/tauri-plugin-theme "GitHub")
 - [ ] Animationen beim Öffnen der App (siehe Notizen)
-- [ ] Animationen bei Seitenwechsel (?)
+- [x] Animationen bei Seitenwechsel (?)
 - [ ] Animationen bei Anwenden einer neuen Sortierweise
 - [ ] Animationen beim Anzeigen der Suchleiste
 - [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden

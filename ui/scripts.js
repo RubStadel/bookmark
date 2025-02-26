@@ -225,13 +225,14 @@ function addBook2List() {
 function revealMenu() {
     resetButtonHighlight();
     let buttons = document.getElementsByClassName("menuButtons");
-    let k = 7.5;
+    let k = 5;
     buttons[0].style.transform = "rotate(0deg)";
     for (let i = 1; i < buttons.length; i++) {
         buttons[i].style.opacity = "1";
         k += 5;
         buttons[i].style.transform = "translateY(-" + k + "vh)";
     }
+    document.getElementById("bookList").style.opacity = "0.2";
 }
 
 /**
@@ -244,6 +245,7 @@ function hideMenu() {
         buttons[i].style.opacity = "0";
         buttons[i].style.transform = "none";
     }
+    document.getElementById("bookList").style.opacity = "1";
 }
 
 /**
@@ -302,7 +304,7 @@ function highlightButton(button) {
     resetButtonHighlight();
     let b = document.getElementsByClassName("menuButtons").item(button);
     b.style.color = "gold";
-    b.style.paddingRight = "10vw";
+    b.style.translate = "-10vw 0";
 }
 
 /**
@@ -312,7 +314,7 @@ function resetButtonHighlight() {
     Array.from(document.getElementsByClassName("menuButtons")).forEach(
         function (element) {
             element.style.color = "white";
-            element.style.paddingRight = "0vw";
+            element.style.translate = "0vw 0";
         }
     );
 }
@@ -336,8 +338,8 @@ function clickMenuButton(e) {
     hideMenu();
 }
 
-document.addEventListener('touchmove', revealSearchBar);
-// document.getElementById("bookList").addEventListener('touchmove', revealSearchBar);
+// document.addEventListener('touchmove', revealSearchBar);
+document.getElementById("bookList").addEventListener('touchmove', revealSearchBar);
 function revealSearchBar() {
     if (window.scrollY == 0) {
         console.log("top");                 // TODO: add functionality to reveal search bar
