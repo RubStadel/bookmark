@@ -30,6 +30,8 @@ document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
+document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
+document.getElementById("search").addEventListener("blur", hideSearchBar);
 
 // move the book form up when focuseing the lower elements so that the keyboard does not block them
 for (let i = 0; i < bottomElements.length; i++) {
@@ -123,7 +125,7 @@ function sortJSON(book) {
 function toggleBookForm() {
     let formDiv = document.getElementById("bookFormDiv");
     if (bookFormVisible) {
-        formDiv.style.top = "-150%";
+        formDiv.style.top = "-250%";
         bookFormVisible = false;
         document.getElementById("menuButton").style.opacity = "1";
     } else {
@@ -330,21 +332,49 @@ function clickMenuButton(e) {
         case 1:
             toggleBookForm();
             break;
+        case 2:
+            revealSearchBar();
+            break;
 
-        // TODO: add  functionality for other buttons
+        // TODO: add  functionality for sort and settings buttons
         default:
             break;
     }
     hideMenu();
 }
 
-// document.addEventListener('touchmove', revealSearchBar);
-document.getElementById("bookList").addEventListener('touchmove', revealSearchBar);
-function revealSearchBar() {
+/**
+ * Checks if the user scrolled from the very top.
+ * If so, the search bar is revealed.
+ */
+function checkSearchBar() {
     if (window.scrollY == 0) {
-        console.log("top");                 // TODO: add functionality to reveal search bar
+        revealSearchBar();
     }
 }
+
+/**
+ * Reveals the search bar by moving it down into the visible area.
+ * The book list has to be moved down as well to avoid oclusion by overlap.
+ * Also hides the menu button by turning its opacity to zero.
+ */
+function revealSearchBar() {
+    document.getElementById("search").style.top = "2vh";
+    document.getElementById("bookList").style.paddingTop = "6vh";
+    document.getElementById("menuButton").style.opacity = "0";
+    document.getElementById("search").focus();
+}
+
+/**
+ * Hides the search bar by moving it up off screen.
+ */
+function hideSearchBar() {
+    document.getElementById("search").style.top = "-5vh";
+    document.getElementById("bookList").style.paddingTop = "0vh";
+    document.getElementById("menuButton").style.opacity = "1";
+}
+
+// TODO: add search functionaltiy
 
 /**
  * Scrolls the book form up forcibly by moving some of it out of screen.
