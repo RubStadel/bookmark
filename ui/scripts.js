@@ -32,6 +32,7 @@ document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
 document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
 document.getElementById("search").addEventListener("blur", hideSearchBar);
+document.getElementById("sortBack").addEventListener("click", hideSortPopup)
 
 // move the book form up when focuseing the lower elements so that the keyboard does not block them
 for (let i = 0; i < bottomElements.length; i++) {
@@ -335,8 +336,11 @@ function clickMenuButton(e) {
         case 2:
             revealSearchBar();
             break;
+        case 3:
+            openSortPopup();
+            break;
 
-        // TODO: add  functionality for sort and settings buttons
+        // TODO: add  functionality for settings button
         default:
             break;
     }
@@ -393,6 +397,36 @@ function resetFormHeight() {
     document.getElementById("bookFormDiv").style.height = "100%";
     document.getElementById("bookFormDiv").style.top = "0%";
 }
+
+/**
+ * Opens the pop-up in which the sorting category is selected.
+ * Sets the android back button function to close the pop-up.
+ */
+function openSortPopup() {
+    document.getElementById("sortBack").style.top = "0vh";
+    document.getElementById("sortPopup").style.border = "2px solid gray";
+    document.getElementById("sortPopup").style.top = "20vh";
+    for (let button of document.getElementsByClassName("sortButtons")) {
+        button.style.opacity = "1";
+    }
+    window.androidBackCallback = hideSortPopup;
+}
+
+/**
+ * Closes the pop-up in which the sorting category is selected.
+ * Resets the android back button function to closing the app.
+ */
+function hideSortPopup() {
+    document.getElementById("sortBack").style.top = "-150vh";
+    document.getElementById("sortPopup").style.border = "none";
+    document.getElementById("sortPopup").style.top = "-150vh";
+    for (let button of document.getElementsByClassName("sortButtons")) {
+        button.style.opacity = "0";
+    }
+    window.androidBackCallback = () => { return true };
+}
+
+// TODO: implement sorting
 
 /// bookDetails "page"
 
