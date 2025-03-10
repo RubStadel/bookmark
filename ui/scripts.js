@@ -352,7 +352,7 @@ function clickMenuButton(e) {
  * If so, the search bar is revealed.
  */
 function checkSearchBar() {
-    if (window.scrollY == 0) {
+    if (window.scrollY == 0) {  // FIXME: add check for direction of drag (only downwards should trigger)
         revealSearchBar();
     }
 }
@@ -478,6 +478,10 @@ function loadBookDetails(title) {
                     property.innerText = key;
 
                     let value = document.createElement("p");
+                    if (key == "Notizen") {
+                        value.style.width = "85%";
+                        value.style.textAlign = "justify";
+                    }
                     value.innerText = bookList.books[i][key];
 
                     document.getElementById("detailsList").append(property);

@@ -17,34 +17,193 @@
         {
             "Titel": "Children of Ruin",
             "Autor": "Adrian Tchaikovsky",
-            "Sprache": "",
-            "Ort": "",
+            "Sprache": "Englisch",
+            "Ort": "Berlin",
             "angefangen": "1 1 2023",
             "beendet": "2 1 2023",
             "Genre": "Science Fiction",
             "Reihe": "Children of Time, 2",
-            "Erscheinungsjahr": "",
-            "Land": "",
-            "Notizen": "",
+            "Erscheinungsjahr": "2019",
+            "Land": "England",
+            "Notizen": "Das Ende habe ich im Pizzaladen im Wedding gelesen, als ich auf die Sitzungsverpflegung zur Konsti des FSR VII gewartet habe.",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Open Circuits",
+            "Autor": "Windell Oskay, Eric Schlaepfer",
+            "Sprache": "Englisch",
+            "Ort": "Berlin",
+            "angefangen": "1 2 2023",
+            "beendet": "1 2 2023",
+            "Genre": "Sachbuch",
+            "Reihe": "",
+            "Erscheinungsjahr": "2022",
+            "Land": "USA",
+            "Notizen": "Ausgeliehen von Vivian",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Children of Memory",
+            "Autor": "Adrian Tchaikovsky",
+            "Sprache": "Englisch",
+            "Ort": "Berlin",
+            "angefangen": "2 2 2023",
+            "beendet": "1 3 2023",
+            "Genre": "Science Fiction",
+            "Reihe": "Children of Time, 3",
+            "Erscheinungsjahr": "2022",
+            "Land": "England",
+            "Notizen": "Hauptsächlich in der S-Bahn auf dem Weg nach Adlershof gelesen",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Ein Leben als Zwerg",
+            "Autor": "Urs Widmer",
+            "Sprache": "Deutsch",
+            "Ort": "Berlin, Stralsund",
+            "angefangen": "0 9 2024",
+            "beendet": "0 9 2024",
+            "Genre": "Roman",
+            "Reihe": "",
+            "Erscheinungsjahr": "2007",
+            "Land": "Schweiz",
+            "Notizen": "Im Zug von Stralsund nach Berlin auf dem Rückweg von einer Wohnungsbesichtigung gelesen. Nicht sonderlich überzeugend",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Handbuch für den vorsichtigen Reisenden duchs Ödland",
+            "Autor": "Sarah Brooks",
+            "Sprache": "Deutsch",
+            "Ort": "Berlin, Stralsund",
+            "angefangen": "1 9 2024",
+            "beendet": "1 9 2024",
+            "Genre": "Fantasy",
+            "Reihe": "",
+            "Erscheinungsjahr": "2024",
+            "Land": "England",
+            "Notizen": "Im Zug von Stralsund nach Berlin auf den Fahrten zu/von meiner Wohnungsbesichtigung gelesen. In der kleinen Buchhandlung am neuen Markt in Stralsund gekauft.",
+            "Bilder": ""
+        },
+        {
+            "Titel": "More Days at the Morisaki Bookshop",
+            "Autor": "Satoshi Yagisawa",
+            "Sprache": "Englisch",
+            "Ort": "Stralsund",
+            "angefangen": "0 10 2024",
+            "beendet": "0 10 2024",
+            "Genre": "Roman",
+            "Reihe": "",
+            "Erscheinungsjahr": "2011",
+            "Land": "Japan",
+            "Notizen": "Im Hugendubel in Stralsund gekauft",
+            "Bilder": ""
+        },
+        {
+            "Titel": "QualityLand",
+            "Autor": "Marc-Uwe Kling",
+            "Sprache": "Deutsch",
+            "Ort": "Stralsund",
+            "angefangen": "1 10 2024",
+            "beendet": "1 10 2024",
+            "Genre": "Science Fiction",
+            "Reihe": "QualityLand",
+            "Erscheinungsjahr": "2017",
+            "Land": "Deutschland",
+            "Notizen": "Im Hugendubel in Stralsund gekauft. Dann an Betty verliehen",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Unterm Birnbaum",
+            "Autor": "Theodor Fontane",
+            "Sprache": "Deutsch",
+            "Ort": "Stralsund",
+            "angefangen": "1 11 2024",
+            "beendet": "1 11 2024",
+            "Genre": "Krimi",
+            "Reihe": "",
+            "Erscheinungsjahr": "1885",
+            "Land": "Deutschland",
+            "Notizen": "Aus der Telefonzelle auf dem Weg zum Einkaufen mitgenommen",
+            "Bilder": ""
+        },
+        {
+            "Titel": "We Solve Murders",
+            "Autor": "Richard Osman",
+            "Sprache": "Englisch",
+            "Ort": "Stralsund",
+            "angefangen": "2 11 2024",
+            "beendet": "2 11 2024",
+            "Genre": "Krimi",
+            "Reihe": "We Solve Murders",
+            "Erscheinungsjahr": "2024",
+            "Land": "England",
+            "Notizen": "Im Hugendubel in Stralsund gekauft",
+            "Bilder": ""
+        },
+        {
+            "Titel": "Das Parfum",
+            "Autor": "Patrick Süskind",
+            "Sprache": "Deutsch",
+            "Ort": "Stralsund",
+            "angefangen": "0 12 2024",
+            "beendet": "1 12 2024",
+            "Genre": "Krimi",
+            "Reihe": "",
+            "Erscheinungsjahr": "1985",
+            "Land": "Deutschland",
+            "Notizen": "Aus der Telefonzelle auf dem Weg zum Einkaufen mitgenommen",
+            "Bilder": ""
+        },
+        {
+            "Titel": "South of the Border, West of the Sun",
+            "Autor": "Haruki Murakami",
+            "Sprache": "Englisch",
+            "Ort": "Schlepkow",
+            "angefangen": "2 12 2024",
+            "beendet": "2 12 2024",
+            "Genre": "Liebesroman",
+            "Reihe": "",
+            "Erscheinungsjahr": "1992",
+            "Land": "Japan",
+            "Notizen": "Im Dussmann in Berlin gekauft nachdem ich mich mit Levin getroffen hatte und bevor ich meinen neuen Arbeitsvertrag bei Corning unterschrieben habe. In den Weihnachtsferien bei Betty gelesen",
             "Bilder": ""
         }
     ],
     "datalists": {
         "authors": [
-            "Adrian Tchaikovsky"
+            "Adrian Tchaikovsky",
+            "Windell Oskay, Eric Schlaepfer",
+            "Urs Widmer",
+            "Sarah Brooks",
+            "Satoshi Yagisawa",
+            "Marc-Uwe Kling",
+            "Theodor Fontane",
+            "Richard Osman",
+            "Patrick Süskind",
+            "Haruki Murakami"
         ],
         "languages": [
             "Deutsch",
             "Englisch"
         ],
         "genres": [
-            "Science Fiction"
+            "Science Fiction",
+            "Sachbuch",
+            "Roman",
+            "Fantasy",
+            "Krimi"
         ],
         "seriesDatalist": [
-            "Children of Time"
+            "Children of Time",
+            "QualityLand",
+            "We Solve Murders"
         ],
         "countries": [
-            "England"
+            "England",
+            "USA",
+            "Schweiz",
+            "Japan",
+            "Deutschland"
         ]
     }
 }

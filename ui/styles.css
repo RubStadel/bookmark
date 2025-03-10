@@ -1,7 +1,6 @@
 body {
     height: 100%;
     margin: 0px;
-    font-family: "Outfit", sans-serif;
     background: black;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -19,6 +18,10 @@ body {
 
 body::-webkit-scrollbar {
     display: none;
+}
+
+* {
+    font-family: "Outfit", sans-serif;
 }
 
 h2,
@@ -68,6 +71,8 @@ ion-icon {
 }
 
 #bookList {
+    height: 100vh;
+    overflow-y: scroll;
     transition: padding 0.2s ease;
 }
 
@@ -91,7 +96,6 @@ ion-icon {
 #bookDetails {
     position: absolute;
     right: 150%;
-    z-index: 1;
     transition: 0.25s ease-out;
 }
 
