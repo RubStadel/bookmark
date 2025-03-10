@@ -9,20 +9,34 @@ const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 const booksJsonPath = await resolveResource('resources/books.json');
 const bookList = JSON.parse(await readTextFile(booksJsonPath));
 
-loadBookList();
-
 /// global variable definitions
 
 let index;
 let bookFormVisible = false;
 let bookDetailsVisible = false;
 let lastScrollTop = 0;
+let sorted = [];
+// let sorted = [
+//     {
+//         "2025": [
+//             "test1",
+//             "test2"
+//         ]
+//     },
+//     {
+//         "2024": [
+//             "test3"
+//         ]
+//     }
+// ];
 
 let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 let bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
 let parts = ["Anfang", "Mitte", "Ende"];
 let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 let keys = { Titel: "title", Autor: "author", Sprache: "language", Ort: "location", Genre: "genre", Reihe: "series", Erscheinungsjahr: "releaseYear", Land: "country", Notizen: "notes" };
+
+sortChronologically();
 
 /// event listeners
 
@@ -55,19 +69,19 @@ document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 function loadBookList() {
     document.getElementById("bookList").replaceChildren();
 
-    let year = 0;
-    for (let i = bookList.books.length - 1; i >= 0; i--) {
-        if (bookList.books[i].beendet.split(" ")[2] != year) {
-            let yearHeader = document.createElement("h1");
-            yearHeader.innerText = bookList.books[i].beendet.split(" ")[2];
-            document.getElementById("bookList").append(yearHeader);
-            year = bookList.books[i].beendet.split(" ")[2];
-        }
+    for (let headerObject of sorted) {
+        Object.keys(headerObject).forEach(function (header) {
+            let headerElement = document.createElement("h1");
+            headerElement.innerText = header;
+            document.getElementById("bookList").append(headerElement);
 
-        let book = document.createElement("button");
-        book.innerText = bookList.books[i].Titel;
-        book.addEventListener("click", () => loadBookDetails(bookList.books[i].Titel));
-        document.getElementById("bookList").append(book);
+            for (let entry of headerObject[header]) {
+                let book = document.createElement("button");
+                book.innerText = entry;
+                book.addEventListener("click", () => loadBookDetails(entry));
+                document.getElementById("bookList").append(book);
+            }
+        });
     }
 }
 
@@ -220,7 +234,8 @@ function addBook2List() {
     updateJSON();
     toggleBookForm();
 
-    loadBookList();
+    sortChronologically();
+    // loadBookList();  // TODO: test functionality and remove if possible
 }
 
 /**
@@ -340,8 +355,9 @@ function clickMenuButton(e) {
         case 3:
             openSortPopup();
             break;
-
-        // TODO: add  functionality for settings button
+        // case 4:      // FIXME: change to open settings page when ready
+        //     sortChronologically(true);    // (useful for testing purposes !)
+        //     break;
         default:
             break;
     }
@@ -430,7 +446,76 @@ function hideSortPopup() {
     window.androidBackCallback = () => { return true };
 }
 
-// TODO: implement sorting
+/// sorting functions
+
+/**
+ * Sorts the book list chronologically by writing titles into the "sorted" array in order.
+ * Then calls loadBookList() to add respective HTML elements for headers (years) and titles.
+ * 
+ * The loop for determining if the order is reversed is implemented branchlessly.
+ * @param {boolean} isReversed - whether to reverse the chronological order or not; defaults to false
+ */
+function sortChronologically(isReversed = false) {
+    sorted = [];
+    let headerIndex = -1;
+    let headerKey = "";
+    let year = 0;
+    for (let i = ((bookList.books.length) * !isReversed); i != (bookList.books.length * isReversed); i -= (1 - (2 * isReversed))) {
+        let endYear = bookList.books[i - !isReversed].beendet.split(" ")[2];
+        if (endYear != year) {
+            let headerObject = {};
+            headerObject[endYear] = [];
+            sorted.push(headerObject);
+            year = endYear;
+            headerIndex++;
+            headerKey = endYear;
+        }
+
+        let tmp = sorted[headerIndex];
+        tmp[headerKey].push(bookList.books[i - !isReversed].Titel);
+        sorted[headerIndex] = tmp;
+    }
+    loadBookList();
+}
+
+// TODO: implement other sorting methods
+
+// let sorted = [
+//     {
+//         "2025": [
+//             "test1",
+//             "test2"
+//         ]
+//     },
+//     {
+//         "2024": [
+//             "test3"
+//         ]
+//     }
+// ];
+
+function sortAlphabeticallyTitle() {
+    sorted = [];
+    let headerIndex = -1;
+    let headerKey = "";
+    // let year = 0;
+    // for (let i = ((bookList.books.length) * !isReversed); i != (bookList.books.length * isReversed); i -= (1 - (2 * isReversed))) {
+    //     let endYear = bookList.books[i - !isReversed].beendet.split(" ")[2];
+    //     if (endYear != year) {
+    //         let headerObject = {};
+    //         headerObject[endYear] = [];
+    //         sorted.push(headerObject);
+    //         year = endYear;
+    //         headerIndex++;
+    //         headerKey = endYear;
+    //     }
+
+    //     let tmp = sorted[headerIndex];
+    //     tmp[headerKey].push(bookList.books[i - !isReversed].Titel);
+    //     sorted[headerIndex] = tmp;
+    // }
+    loadBookList();
+}
 
 /// bookDetails "page"
 
