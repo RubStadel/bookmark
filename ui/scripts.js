@@ -16,6 +16,7 @@ loadBookList();
 let index;
 let bookFormVisible = false;
 let bookDetailsVisible = false;
+let lastScrollTop = 0;
 
 let datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 let bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
@@ -30,7 +31,7 @@ document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
-document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
+document.getElementById("bookList").addEventListener('scroll', checkSearchBar);
 document.getElementById("search").addEventListener("blur", hideSearchBar);
 document.getElementById("sortBack").addEventListener("click", hideSortPopup)
 
@@ -352,9 +353,11 @@ function clickMenuButton(e) {
  * If so, the search bar is revealed.
  */
 function checkSearchBar() {
-    if (window.scrollY == 0) {  // FIXME: add check for direction of drag (only downwards should trigger)
+    let scrollTop = document.getElementById("bookList").scrollTop;
+    if (scrollTop < lastScrollTop && scrollTop == 0) {
         revealSearchBar();
     }
+    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 }
 
 /**
@@ -363,6 +366,7 @@ function checkSearchBar() {
  * Also hides the menu button by turning its opacity to zero.
  */
 function revealSearchBar() {
+    document.getElementById("search").innerText = "";
     document.getElementById("search").style.top = "2vh";
     document.getElementById("bookList").style.paddingTop = "6vh";
     document.getElementById("menuButton").style.opacity = "0";
