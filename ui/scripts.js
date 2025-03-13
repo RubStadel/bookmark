@@ -35,6 +35,7 @@ let bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
 let parts = ["Anfang", "Mitte", "Ende"];
 let months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 let keys = { Titel: "title", Autor: "author", Sprache: "language", Ort: "location", Genre: "genre", Reihe: "series", Erscheinungsjahr: "releaseYear", Land: "country", Notizen: "notes" };
+let alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "ä", "ö", "ü"];
 
 sortChronologically();
 
@@ -356,7 +357,7 @@ function clickMenuButton(e) {
             openSortPopup();
             break;
         // case 4:      // FIXME: change to open settings page when ready
-        //     sortChronologically(true);    // (useful for testing purposes !)
+        //     sortByLetter("Titel", true);    // (useful for testing purposes !)
         //     break;
         default:
             break;
@@ -478,7 +479,103 @@ function sortChronologically(isReversed = false) {
     loadBookList();
 }
 
+/**
+ * Sorts the book list alphabetically by parameter (e.g. "Titel" or "Autor").
+ * This is done by writing titles into the "sorted" array in lists for each starting letter.
+ * sortAlphabetically() is called to sort these lists in alphabtical order.
+ * Then calls loadBookList() to add respective HTML elements for headers (years) and titles.
+ * @param {string} parameter - parameter of book detail to sort by (e.g. "Titel")
+ * @param {boolean} isReversed - whether to reverse the alphabetical order or not; defaults to false
+ */
+function sortByLetter(parameter, isReversed = false) {
+    sorted = [];
+    let letters = [];
+    let headerIndex = -1;
+
+    let currentLetter = "";
+    for (let i = 0; i <= (bookList.books.length - 1); i++) {
+        let letter = bookList.books[i][parameter][0].toLowerCase();
+        if (letter != currentLetter) {
+            if (letters.includes(letter)) {
+                headerIndex = letters.indexOf(letter);
+            } else {
+                let headerObject = {};
+                headerObject[letter] = [];
+                sorted.push(headerObject);
+                headerIndex = sorted.length - 1;
+            }
+            currentLetter = letter;
+            letters.push(letter);
+        }
+        let tmp = sorted[headerIndex];
+        tmp[letter].push(bookList.books[i].Titel);
+        sorted[headerIndex] = tmp;
+    }
+    sorted = sortAlphabetically(letters, isReversed);
+
+    loadBookList();
+}
+
+/**
+ * Sorts the objects in the "sorted" array in alphabetical order and returns the new array.
+ * 
+ * All books whose title starts with a letter not defined in the alphabet (variable) is sorted into the category "Sonstige".
+ * @param {string[]} letters - list of letters for which titles exist in the book list
+ * @param {boolean} isReversed - whether to reverse the alphabetical order or not; defaults to false
+ * @returns alphabetically sorted array
+ */
+function sortAlphabetically(letters, isReversed = false) {
+    let sortedAlpha = [];
+    let headerIndex = -1;
+    let headerObject = {};
+
+    for (let i = ((alphabet.length) * isReversed); i != (alphabet.length * !isReversed); i -= (1 - (2 * !isReversed))) {
+        let letter = alphabet[i];
+        if (letters.includes(letter)) {
+            headerObject = {};
+            headerObject[letter.toUpperCase()] = [];
+            sortedAlpha.push(headerObject);
+            headerIndex = sortedAlpha.length - 1;
+
+            let tmp = sortedAlpha[headerIndex];
+            let sortedObject = sorted.find((element) => element[letter] != undefined);
+            Object.keys(sortedObject).forEach(function (header) {
+                for (let entry of sortedObject[header]) {
+                    tmp[letter.toUpperCase()].push(entry);
+                    sortedAlpha[headerIndex] = tmp;
+                }
+            });
+            letters = letters.filter((lettersLetter) => lettersLetter != letter);
+        }
+    }
+
+    if (letters != "") {
+        headerObject = {};
+        headerObject["Sonstige"] = [];
+        sortedAlpha.push(headerObject);
+        headerIndex = sortedAlpha.length - 1;
+
+        let tmp = sortedAlpha[headerIndex];
+        for (let letter of letters) {
+            let sortedObject = sorted.find((element) => element[letter] != undefined);
+            Object.keys(sortedObject).forEach(function (header) {
+                for (let entry of sortedObject[header]) {
+                    tmp["Sonstige"].push(entry);
+                    sortedAlpha[headerIndex] = tmp;
+                }
+            });
+        }
+        if (isReversed) {
+            sortedAlpha.splice(0, 0, {});
+            sortedAlpha[0] = sortedAlpha.pop();
+        }
+    }
+
+    return sortedAlpha;
+}
+
 // TODO: implement other sorting methods
+// TODO: assign sorting functions to buttons in sortPopup
 
 // let sorted = [
 //     {
@@ -491,31 +588,15 @@ function sortChronologically(isReversed = false) {
 //         "2024": [
 //             "test3"
 //         ]
+//     },
+//     {
+//         "c": [
+//             "Children of Time",
+//             "Children of Ruin"
+//             "Children of Memory"
+//         ]
 //     }
 // ];
-
-function sortAlphabeticallyTitle() {
-    sorted = [];
-    let headerIndex = -1;
-    let headerKey = "";
-    // let year = 0;
-    // for (let i = ((bookList.books.length) * !isReversed); i != (bookList.books.length * isReversed); i -= (1 - (2 * isReversed))) {
-    //     let endYear = bookList.books[i - !isReversed].beendet.split(" ")[2];
-    //     if (endYear != year) {
-    //         let headerObject = {};
-    //         headerObject[endYear] = [];
-    //         sorted.push(headerObject);
-    //         year = endYear;
-    //         headerIndex++;
-    //         headerKey = endYear;
-    //     }
-
-    //     let tmp = sorted[headerIndex];
-    //     tmp[headerKey].push(bookList.books[i - !isReversed].Titel);
-    //     sorted[headerIndex] = tmp;
-    // }
-    loadBookList();
-}
 
 /// bookDetails "page"
 
