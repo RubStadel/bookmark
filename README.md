@@ -68,6 +68,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sicherstellen, dass die Outfit-Schriftart für die Bücherliste verwendet wird (CSS-Selektor * für alle Texte)
 - [ ] Sicherstellen, dass der Editierknopf nicht mit den Notizen kollidiert (Knopf verkleinern und weiter an die Seite schieben)
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn nach unten gescrollt wird
+- [x] Sortierfunktionen umschreiben, sodass sorted eine Map ist, damit der Code wenigstens einigermaßen lesbar ist
 
 ### UI (Seiten, etc.)
 

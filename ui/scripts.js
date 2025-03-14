@@ -15,7 +15,7 @@ let index;
 let bookFormVisible = false;
 let bookDetailsVisible = false;
 let lastScrollTop = 0;
-let sorted = [];
+let sorted = new Map();
 // let sorted = [
 //     {
 //         "2025": [
@@ -46,7 +46,7 @@ document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
-document.getElementById("bookList").addEventListener('scroll', checkSearchBar);
+document.getElementById("bookList").addEventListener('scroll', checkSearchBar); // TODO: try touchmove again (but with check if dragging down)
 document.getElementById("search").addEventListener("blur", hideSearchBar);
 document.getElementById("sortBack").addEventListener("click", hideSortPopup)
 
@@ -70,19 +70,16 @@ document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 function loadBookList() {
     document.getElementById("bookList").replaceChildren();
 
-    for (let headerObject of sorted) {
-        Object.keys(headerObject).forEach(function (header) {
-            let headerElement = document.createElement("h1");
-            headerElement.innerText = header;
-            document.getElementById("bookList").append(headerElement);
-
-            for (let entry of headerObject[header]) {
-                let book = document.createElement("button");
-                book.innerText = entry;
-                book.addEventListener("click", () => loadBookDetails(entry));
-                document.getElementById("bookList").append(book);
-            }
-        });
+    for (let header of sorted.keys()) {
+        let headerElement = document.createElement("h1");
+        headerElement.innerText = header;
+        document.getElementById("bookList").append(headerElement);
+        for (let entry of sorted.get(header)) {
+            let book = document.createElement("button");
+            book.innerText = entry;
+            book.addEventListener("click", () => loadBookDetails(entry));
+            document.getElementById("bookList").append(book);
+        }
     }
 }
 
@@ -450,132 +447,94 @@ function hideSortPopup() {
 /// sorting functions
 
 /**
- * Sorts the book list chronologically by writing titles into the "sorted" array in order.
+ * Sorts the book list chronologically by writing titles into the "sorted" map in order.
  * Then calls loadBookList() to add respective HTML elements for headers (years) and titles.
  * 
  * The loop for determining if the order is reversed is implemented branchlessly.
  * @param {boolean} isReversed - whether to reverse the chronological order or not; defaults to false
  */
 function sortChronologically(isReversed = false) {
-    sorted = [];
-    let headerIndex = -1;
-    let headerKey = "";
-    let year = 0;
+
+    sorted = new Map();
+    let yearList = [];
     for (let i = ((bookList.books.length) * !isReversed); i != (bookList.books.length * isReversed); i -= (1 - (2 * isReversed))) {
         let endYear = bookList.books[i - !isReversed].beendet.split(" ")[2];
-        if (endYear != year) {
-            let headerObject = {};
-            headerObject[endYear] = [];
-            sorted.push(headerObject);
-            year = endYear;
-            headerIndex++;
-            headerKey = endYear;
+        if (!sorted.has(endYear)) {
+            sorted.set(endYear, "");
+            yearList = [];
         }
-
-        let tmp = sorted[headerIndex];
-        tmp[headerKey].push(bookList.books[i - !isReversed].Titel);
-        sorted[headerIndex] = tmp;
+        yearList.push(bookList.books[i - !isReversed].Titel);
+        sorted.set(endYear, yearList);
     }
     loadBookList();
 }
 
 /**
  * Sorts the book list alphabetically by parameter (e.g. "Titel" or "Autor").
- * This is done by writing titles into the "sorted" array in lists for each starting letter.
- * sortAlphabetically() is called to sort these lists in alphabtical order.
+ * This is done by writing titles into the "sorted" map in arrays for each starting letter.
+ * sortAlphabetically() is called to sort these arrays in alphabtical order.
  * Then calls loadBookList() to add respective HTML elements for headers (years) and titles.
  * @param {string} parameter - parameter of book detail to sort by (e.g. "Titel")
  * @param {boolean} isReversed - whether to reverse the alphabetical order or not; defaults to false
  */
 function sortByLetter(parameter, isReversed = false) {
-    sorted = [];
-    let letters = [];
-    let headerIndex = -1;
-
-    let currentLetter = "";
+    sorted = new Map();
+    let letterList = [];
     for (let i = 0; i <= (bookList.books.length - 1); i++) {
-        let letter = bookList.books[i][parameter][0].toLowerCase();
-        if (letter != currentLetter) {
-            if (letters.includes(letter)) {
-                headerIndex = letters.indexOf(letter);
-            } else {
-                let headerObject = {};
-                headerObject[letter] = [];
-                sorted.push(headerObject);
-                headerIndex = sorted.length - 1;
-            }
-            currentLetter = letter;
-            letters.push(letter);
+        let letter = bookList.books[i][parameter][0].toUpperCase();
+        if (!sorted.has(letter)) {
+            sorted.set(letter, "");
+            letterList = [];
+        } else {
+            letterList = sorted.get(letter);
         }
-        let tmp = sorted[headerIndex];
-        tmp[letter].push(bookList.books[i].Titel);
-        sorted[headerIndex] = tmp;
+        letterList.push(bookList.books[i].Titel);
+        sorted.set(letter, letterList);
     }
-    sorted = sortAlphabetically(letters, isReversed);
+    sorted = sortAlphabetically(isReversed);
 
     loadBookList();
 }
 
 /**
- * Sorts the objects in the "sorted" array in alphabetical order and returns the new array.
+ * Sorts the entries in the "sorted" map in alphabetical order and returns the new map.
  * 
  * All books whose title starts with a letter not defined in the alphabet (variable) is sorted into the category "Sonstige".
- * @param {string[]} letters - list of letters for which titles exist in the book list
  * @param {boolean} isReversed - whether to reverse the alphabetical order or not; defaults to false
- * @returns alphabetically sorted array
+ * @returns alphabetically sorted map
  */
-function sortAlphabetically(letters, isReversed = false) {
-    let sortedAlpha = [];
-    let headerIndex = -1;
-    let headerObject = {};
-
-    for (let i = ((alphabet.length) * isReversed); i != (alphabet.length * !isReversed); i -= (1 - (2 * !isReversed))) {
-        let letter = alphabet[i];
-        if (letters.includes(letter)) {
-            headerObject = {};
-            headerObject[letter.toUpperCase()] = [];
-            sortedAlpha.push(headerObject);
-            headerIndex = sortedAlpha.length - 1;
-
-            let tmp = sortedAlpha[headerIndex];
-            let sortedObject = sorted.find((element) => element[letter] != undefined);
-            Object.keys(sortedObject).forEach(function (header) {
-                for (let entry of sortedObject[header]) {
-                    tmp[letter.toUpperCase()].push(entry);
-                    sortedAlpha[headerIndex] = tmp;
+function sortAlphabetically(isReversed = false) {
+    let sortedAlpha = new Map();
+    let others = [];
+    for (let i = ((alphabet.length - 1) * isReversed); i != (alphabet.length * !isReversed) - 1; i -= (1 - (2 * !isReversed))) {
+        if (isReversed && i == alphabet.length - 1) {
+            for (let letter of sorted.keys()) {
+                if (!alphabet.includes(letter.toLowerCase())) {
+                    for (let entry of sorted.get(letter)) {
+                        others.push(entry);
+                    }
+                    sortedAlpha.set("Sonstige", others);
+                    sorted.delete(letter);
                 }
-            });
-            letters = letters.filter((lettersLetter) => lettersLetter != letter);
+            }
+        }
+        let letter = alphabet[i].toUpperCase();
+        if (sorted.has(letter)) {
+            sortedAlpha.set(letter, sorted.get(letter));
+            sorted.delete(letter);
         }
     }
-
-    if (letters != "") {
-        headerObject = {};
-        headerObject["Sonstige"] = [];
-        sortedAlpha.push(headerObject);
-        headerIndex = sortedAlpha.length - 1;
-
-        let tmp = sortedAlpha[headerIndex];
-        for (let letter of letters) {
-            let sortedObject = sorted.find((element) => element[letter] != undefined);
-            Object.keys(sortedObject).forEach(function (header) {
-                for (let entry of sortedObject[header]) {
-                    tmp["Sonstige"].push(entry);
-                    sortedAlpha[headerIndex] = tmp;
-                }
-            });
+    for (let letter of sorted.keys()) {
+        for (let entry of sorted.get(letter)) {
+            others.push(entry);
         }
-        if (isReversed) {
-            sortedAlpha.splice(0, 0, {});
-            sortedAlpha[0] = sortedAlpha.pop();
-        }
+        sortedAlpha.set("Sonstige", others);
     }
-
     return sortedAlpha;
 }
 
-// TODO: implement other sorting methods
-// TODO: assign sorting functions to buttons in sortPopup
+// TODO: implement other sorting methods (Erscheinungsjahr (Zahl) & Ort (mehrere Angaben möglich))
+// TODO: assign sorting functions to buttons in sortPopup (incl. toggling)
 
 // let sorted = [
 //     {
