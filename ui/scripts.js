@@ -15,20 +15,8 @@ let index;
 let bookFormVisible = false;
 let bookDetailsVisible = false;
 let lastScrollTop = 0;
+let lastY = 0;
 let sorted = new Map();
-// let sorted = [
-//     {
-//         "2025": [
-//             "test1",
-//             "test2"
-//         ]
-//     },
-//     {
-//         "2024": [
-//             "test3"
-//         ]
-//     }
-// ];
 
 const datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 const bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
@@ -56,18 +44,18 @@ document.getElementById("menu").addEventListener('touchstart', revealMenu);
 document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
-document.getElementById("bookList").addEventListener('scroll', checkSearchBar); // TODO: try touchmove again (but with check if dragging down)
+document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
+document.getElementById("bookList").addEventListener('touchend', () => { lastScrollTop = document.getElementById("bookList").scrollTop });
 document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup)
 
-// FIXME: implement missing sorting methods and add functionality here
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
 document.getElementById("alphabetisch").addEventListener('click', () => { sortByLetter("Titel", sortingStates.get(1)); sortingStates.set(1, !sortingStates.get(1)) });
-// document.getElementById("Autor").addEventListener('click', () => { sortByLetter("Autor", sortingStates.get(2)); sortingStates.set(2, !sortingStates.get(2)) });
+document.getElementById("Autor").addEventListener('click', () => { sortByLetter("Autor", sortingStates.get(2)); sortingStates.set(2, !sortingStates.get(2)) });
 document.getElementById("Sprache").addEventListener('click', () => { sortByLetter("Sprache", sortingStates.get(3)); sortingStates.set(3, !sortingStates.get(3)) });
-// document.getElementById("Ort").addEventListener('click', () => { sortByLetter("Ort", sortingStates.get(4)); sortingStates.set(4, !sortingStates.get(4)) });
+document.getElementById("Ort").addEventListener('click', () => { sortByLetter("Ort", sortingStates.get(4)); sortingStates.set(4, !sortingStates.get(4)) });
 document.getElementById("Genre").addEventListener('click', () => { sortByLetter("Genre", sortingStates.get(5)); sortingStates.set(5, !sortingStates.get(5)) });
-// document.getElementById("Reihe").addEventListener('click', () => { sortByLetter("Reihe", sortingStates.get(6)); sortingStates.set(6, !sortingStates.get(6)) });
+document.getElementById("Reihe").addEventListener('click', () => { sortByLetter("Reihe", sortingStates.get(6)); sortingStates.set(6, !sortingStates.get(6)) });
 document.getElementById("Erscheinungsjahr").addEventListener('click', () => { sortByDate("release", sortingStates.get(7)); sortingStates.set(7, !sortingStates.get(7)) });
 document.getElementById("Land").addEventListener('click', () => { sortByLetter("Land", sortingStates.get(8)); sortingStates.set(8, !sortingStates.get(8)) });
 
@@ -254,7 +242,6 @@ function addBook2List() {
     toggleBookForm();
 
     sortByDate();
-    // loadBookList();  // TODO: test functionality and remove if possible
 }
 
 /**
@@ -387,12 +374,15 @@ function clickMenuButton(e) {
  * Checks if the user scrolled from the very top.
  * If so, the search bar is revealed.
  */
-function checkSearchBar() {
+function checkSearchBar(e) {
+    const { touches, changedTouches } = e.originalEvent ?? e;
+    const touch = touches[0] ?? changedTouches[0];
+    let y = touch.clientY;
     let scrollTop = document.getElementById("bookList").scrollTop;
-    if (scrollTop < lastScrollTop && scrollTop == 0) {
+    if (scrollTop == 0 && y > lastY && lastY != 0 && lastScrollTop == 0) {
         revealSearchBar();
     }
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    lastY = y <= 0 ? 0 : y;
 }
 
 /**
@@ -534,20 +524,37 @@ function sortByLetter(parameter, isReversed = false) {
         let letter = bookList.books[i][parameter];
         if (parameter == "Titel") {
             letter = bookList.books[i][parameter][0].toUpperCase();
+        } else if (parameter == "Reihe") {
+            letter = bookList.books[i][parameter].split(", ")[0];
         }
-        if (!sorted.has(letter)) {
-            sorted.set(letter, "");
-            letterList = [];
+        if (parameter == "Ort") {
+            letter = bookList.books[i][parameter].split(", ");
+            for (let tmp of letter) {
+                console.log("tmp: ", tmp);
+                if (!sorted.has(tmp)) {
+                    sorted.set(tmp, "");
+                    letterList = [];
+                } else {
+                    letterList = sorted.get(tmp);
+                }
+                letterList.push(bookList.books[i].Titel);
+                sorted.set(tmp, letterList);
+            }
         } else {
-            letterList = sorted.get(letter);
+            if (!sorted.has(letter)) {
+                sorted.set(letter, "");
+                letterList = [];
+            } else {
+                letterList = sorted.get(letter);
+            }
+            letterList.push(bookList.books[i].Titel);
+            sorted.set(letter, letterList);
         }
-        letterList.push(bookList.books[i].Titel);
-        sorted.set(letter, letterList);
     }
     if (parameter == "Titel") {
         sorted = sortAlphabeticallyTitle(isReversed);
     } else {
-        sorted = sortAlphabetically(isReversed);
+        sorted = sortAlphabetically(parameter, isReversed);
     }
 
     loadBookList();
@@ -591,16 +598,15 @@ function sortAlphabeticallyTitle(isReversed = false) {
     return sortedAlpha;
 }
 
-// TODO: adapt to work with author (first letter of last name as well)
-
 /**
  * Sorts the entries in the "sorted" map in alphabetical order and returns the new map.
  * 
  * All books where the category starts with a letter not defined in the alphabet (variable) is sorted into the category "Sonstige".
+ * @param {string} parameter - parameter of book detail to sort by (e.g. "Titel"); defaults to ""
  * @param {boolean} isReversed - whether to reverse the alphabetical order or not; defaults to false
  * @returns alphabetically sorted map
  */
-function sortAlphabetically(isReversed = false) {
+function sortAlphabetically(parameter = "", isReversed = false) {
     let sortedAlpha = new Map();
     let others = [];
     for (let i = ((alphabet.length - 1) * isReversed); i != (alphabet.length * !isReversed) - isReversed; i -= (1 - (2 * !isReversed))) {
@@ -617,13 +623,32 @@ function sortAlphabetically(isReversed = false) {
         }
         let letter = alphabet[i].toUpperCase();
         let letters = [];
+        let match;
         for (let entry of sorted.keys()) {
             letters.push(entry);
         }
-        let match = letters.find((element) => element[0] == letter);
-        if (match) {
-            sortedAlpha.set(match, sortAlphabeticallyArray(sorted.get(match)));
-            sorted.delete(match);
+        if (parameter == "Autor" || parameter == "Sprache" || parameter == "Ort" || parameter == "Genre" || parameter == "Land") {
+            if (parameter == "Autor") {
+                match = letters.filter((element) => element.split(" ")[element.split(" ").length - 1][0] == letter);
+            } else {
+                match = letters.filter((element) => element[0] == letter);
+            }
+            if (match) {
+                for (let matched of match) {
+                    if (parameter == "Reihe") {
+                        sortedAlpha.set(matched, sortAscendingArray(sorted.get(matched)));
+                    } else {
+                        sortedAlpha.set(matched, sortAlphabeticallyArray(sorted.get(matched)));
+                    }
+                    sorted.delete(matched);
+                }
+            }
+        } else {
+            match = letters.find((element) => element[0] == letter);
+            if (match) {
+                sortedAlpha.set(match, sortAlphabeticallyArray(sorted.get(match)));
+                sorted.delete(match);
+            }
         }
     }
     for (let letter of sorted.keys()) {
@@ -633,6 +658,33 @@ function sortAlphabetically(isReversed = false) {
         sortedAlpha.set("Sonstige", sortAlphabeticallyArray(others));
     }
     return sortedAlpha;
+}
+
+/**
+ * Sorts the given array according to the number in the series (ascending order) and returns the sorted array.
+ * 
+ * Used in sorting for the internal sorting of the book in a given header.
+ * Entries that do not start with a letter defined in the alphabet (variable) are added to the end.
+ * @param {string[]} array - array to be sorted
+ * @returns sorted array
+ */
+function sortAscendingArray(array) {
+    let sortedArray = [];
+    let sortedMap = new Map();
+    let numbers = [];
+    for (let i = 0; i < bookList.books.length; i++) {
+        if (!array.includes(bookList.books[i].Titel)) {
+            continue
+        }
+        numbers.push(bookList.books[i].Reihe.split(", ")[1]);
+        sortedMap.set(bookList.books[i].Reihe.split(", ")[1], bookList.books[i].Titel);
+    }
+    numbers.sort();
+    for (let entry of numbers) {
+        sortedArray.push(sortedMap.get(entry))
+    }
+
+    return sortedArray;
 }
 
 /**
@@ -659,8 +711,6 @@ function sortAlphabeticallyArray(array) {
     }
     return sortedArray;
 }
-
-// TODO: implement other sorting methods (Ort (mehrere Angaben möglich), Reihe (Name, Teil (Zahl)))
 
 /// bookDetails "page"
 
