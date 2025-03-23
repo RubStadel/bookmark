@@ -66,7 +66,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sicherstellen, dass man Eingabebereiche sehen kann (nicht von der Android-Tastatur verdeckt)
 - [x] Sicherstellen, dass das Halten des Menüknopfes nicht die Bücherliste scrollt (overflow: scroll)
 - [x] Sicherstellen, dass die Outfit-Schriftart für die Bücherliste verwendet wird (CSS-Selektor * für alle Texte)
-- [ ] Sicherstellen, dass der Editierknopf nicht mit den Notizen kollidiert (Knopf verkleinern und weiter an die Seite schieben)
+- [x] Sicherstellen, dass der Editierknopf nicht mit den Notizen kollidiert (Knopf verkleinern und weiter an die Seite schieben)
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn nach unten gescrollt wird
 - [x] Sortierfunktionen umschreiben, sodass sorted eine Map ist, damit der Code wenigstens einigermaßen lesbar ist
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn man ganz oben anfängt (nicht auch beim langen Scrollen nach oben, wenn man schon losgelassen hat)

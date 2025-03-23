@@ -45,8 +45,8 @@ p {
     font-size: 1.25rem;
     opacity: 0;
     position: fixed;
-    bottom: 5vh;
-    right: 7.5vw;
+    bottom: 2.5vh;
+    right: 5vw;
     transition: transform 0.35s ease-out, opacity 0.2s ease, translate 0.15s ease-out;
 }
 
@@ -67,7 +67,7 @@ ion-icon {
 }
 
 #menuButton>ion-icon {
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 
 #bookList {
@@ -102,12 +102,13 @@ ion-icon {
 #editButton {
     opacity: 1;
     position: absolute;
-    bottom: 5vh;
-    right: 12.5vw;
+    bottom: 2vh;
+    right: 5.5vw;
+
 }
 
 #editButton>ion-icon {
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 #bookFormDiv {
