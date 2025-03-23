@@ -47,7 +47,8 @@ document.getElementById("editButton").addEventListener('click', toggleEditForm);
 document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
 document.getElementById("bookList").addEventListener('touchend', () => { lastScrollTop = document.getElementById("bookList").scrollTop });
 document.getElementById("search").addEventListener('blur', hideSearchBar);
-document.getElementById("sortBack").addEventListener('click', hideSortPopup)
+document.getElementById("sortBack").addEventListener('click', hideSortPopup);
+document.getElementById("search").addEventListener('input', search);
 
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
 document.getElementById("alphabetisch").addEventListener('click', () => { sortByLetter("Titel", sortingStates.get(1)); sortingStates.set(1, !sortingStates.get(1)) });
@@ -405,9 +406,30 @@ function hideSearchBar() {
     document.getElementById("search").style.top = "-5vh";
     document.getElementById("bookList").style.paddingTop = "0vh";
     document.getElementById("menuButton").style.opacity = "1";
+    document.getElementById("search").value = "";
 }
 
-// TODO: add search functionaltiy
+function search() {
+    document.getElementById("bookList").replaceChildren();
+    sorted = new Map();
+
+    let searchText = document.getElementById("search").value.toLowerCase();
+    for (let i = 0; i < bookList.books.length; i++) {
+        Object.keys(bookList.books[i]).forEach(function (key) {
+            if (!sorted.has(bookList.books[i].Titel)) {
+                if (bookList.books[i][key].toLowerCase().includes(searchText)) {
+                    let book = document.createElement("button");
+                    book.innerText = bookList.books[i].Titel;
+                    book.addEventListener("click", () => loadBookDetails(bookList.books[i].Titel));
+                    document.getElementById("bookList").append(book);
+                    sorted.set(bookList.books[i].Titel);
+                }
+            }
+        });
+    }
+
+    window.androidBackCallback = sortByDate;
+}
 
 /**
  * Scrolls the book form up forcibly by moving some of it out of screen.
@@ -488,6 +510,7 @@ function sortByDate(date = "read", isReversed = false) {
         sorted = sortChronologically(isReversed);
     }
 
+    window.androidBackCallback = () => { return true };
     loadBookList();
 }
 

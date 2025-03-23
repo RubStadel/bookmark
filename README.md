@@ -54,7 +54,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sicherstellen, dass man beim Drücken des Android-Back-Buttons zur vorherigen Seite zurückkehrt (via Kotlin-Plugin: [Doku](https://v2.tauri.app/develop/plugins/develop-mobile/), [GitHub-Issue](https://github.com/tauri-apps/tauri/issues/8142))
 - [x] Möglichkeit Bücher in der Datenbank zu sortieren (in JS oder Rust?) (<https://stackoverflow.com/a/1069840>)
 - [x] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
-- [ ] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
+- [x] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
 - [x] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
 - [ ] Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)
 - [ ] Entfernen von Bildern aus dem Unterordner (und json)
