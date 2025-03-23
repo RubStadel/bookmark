@@ -70,6 +70,10 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn nach unten gescrollt wird
 - [x] Sortierfunktionen umschreiben, sodass sorted eine Map ist, damit der Code wenigstens einigermaßen lesbar ist
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn man ganz oben anfängt (nicht auch beim langen Scrollen nach oben, wenn man schon losgelassen hat)
+- [ ] Testen der Edit-Form: Sicherstellen,
+  - dass bisherige Inhalte richtig übernommen werden
+  - dass beim Schließen der richtige Knopf eingeblendet wird
+  - dass Notizen nicht unten überstehen (south of the Border, West of the Sun)
 
 ### UI (Seiten, etc.)
 
