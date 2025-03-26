@@ -45,7 +45,7 @@ document.getElementById("menu").addEventListener('touchend', clickMenuButton);
 document.getElementById("menu").addEventListener('touchmove', highlightMenu);
 document.getElementById("editButton").addEventListener('click', toggleEditForm);
 document.getElementById("bookList").addEventListener('touchmove', checkSearchBar);
-document.getElementById("bookList").addEventListener('touchend', () => { lastScrollTop = document.getElementById("bookList").scrollTop });
+document.getElementById("bookList").addEventListener('touchend', () => { lastScrollTop = document.getElementById("bookList").scrollTop; lastY = 0; });
 document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
@@ -67,7 +67,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 }
 
 // for testing on windows only ((very limited) support for mouse input)
-document.getElementById("menuButton").addEventListener('click', toggleBookForm);
+// document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 
 /// function definitions
 
@@ -850,7 +850,9 @@ function toggleEditForm() {
         formDiv.style.top = "-150%";
         bookFormVisible = false;
         document.getElementById("editButton").style.opacity = "1";
+        document.getElementById("bookDetails").style.top = "0%";
     } else {
+        setTimeout(() => { document.getElementById("bookDetails").style.top = "-75%"; }, 500);
         formDiv.style.top = "0%";
         bookFormVisible = true;
         readDatalistOptions();
@@ -868,13 +870,16 @@ function toggleEditForm() {
  */
 function closeForm() {
     document.getElementById("bookFormDiv").style.top = "-150%";
+    document.getElementById("bookForm").reset();
     bookFormVisible = false;
-    document.getElementById("editButton").style.opacity = "1";
-    document.getElementById("menuButton").style.opacity = "1";
 
     window.androidBackCallback = () => { return true };
     if (bookDetailsVisible) {
         window.androidBackCallback = closeBookDetails;
+        document.getElementById("bookDetails").style.top = "0%";
+        document.getElementById("editButton").style.opacity = "1";
+    } else {
+        document.getElementById("menuButton").style.opacity = "1";
     }
 
     return false;

@@ -1,4 +1,4 @@
-package com.tauri.dev
+package com.bookmark.dev
 
 import android.webkit.WebView
 import android.annotation.SuppressLint

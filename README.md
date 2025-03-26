@@ -43,6 +43,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 - Hinzugefügte Bilder werden in dedizierten Ordner kopiert. Für Bilder wird der relative Pfad in der json gespeichert. Dann werden die Bilder geladen, wenn Detaildaten eingeholt werden.
 
+- Einzelne Datei zu einem einzigen Commit hinzufügen: `git add -f _pathToFile_`
+- APK erstellen: `cargo tauri android build --apk`
+
 ## ToDo
 
 ### Grundlegende Features
@@ -70,10 +73,12 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn nach unten gescrollt wird
 - [x] Sortierfunktionen umschreiben, sodass sorted eine Map ist, damit der Code wenigstens einigermaßen lesbar ist
 - [x] Sicherstellen, dass die Suchleiste nur angezeigt wird, wenn man ganz oben anfängt (nicht auch beim langen Scrollen nach oben, wenn man schon losgelassen hat)
-- [ ] Testen der Edit-Form: Sicherstellen,
-  - dass bisherige Inhalte richtig übernommen werden
-  - dass beim Schließen der richtige Knopf eingeblendet wird
-  - dass Notizen nicht unten überstehen (south of the Border, West of the Sun)
+- [x] Testen der Edit-Form: Sicherstellen,
+  - [x] dass bisherige Inhalte richtig übernommen werden
+  - [x] dass beim Schließen der richtige Knopf eingeblendet wird
+  - [x] dass Notizen nicht unten überstehen (v.a. South of the Border, West of the Sun)
+- [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
+- [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 
 ### UI (Seiten, etc.)
 

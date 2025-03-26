@@ -91,12 +91,14 @@ ion-icon {
     height: 100%;
     width: 90%;
     padding: 0 5vw;
+    z-index: 2;
 }
 
 #bookDetails {
     position: absolute;
+    top: 0%;
     right: 150%;
-    transition: 0.25s ease-out;
+    transition: right 0.25s ease-out;
 }
 
 #editButton {
