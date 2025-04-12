@@ -79,6 +79,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - [x] dass Notizen nicht unten überstehen (v.a. South of the Border, West of the Sun)
 - [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
+- [ ] Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen
 
 ### UI (Seiten, etc.)
 

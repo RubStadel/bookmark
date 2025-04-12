@@ -121,6 +121,12 @@ ion-icon {
     transition: 0.5s ease-out;
 }
 
+#pictures {
+    width: 90vw;
+    height: 7.5vh;
+    background-color: rgba(128, 128, 128, 0.25);
+}
+
 #submitButton {
     width: 100%;
     height: 6vh;

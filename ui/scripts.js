@@ -4,6 +4,7 @@
 // https://v2.tauri.app/plugin/file-system/#permissions
 const { resolveResource } = window.__TAURI__.path;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
+const { open } = window.__TAURI__.dialog;
 
 // read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
 const booksJsonPath = await resolveResource('resources/books.json');
@@ -17,6 +18,7 @@ let bookDetailsVisible = false;
 let lastScrollTop = 0;
 let lastY = 0;
 let sorted = new Map();
+let pictures = [];
 
 const datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 const bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
@@ -49,6 +51,8 @@ document.getElementById("bookList").addEventListener('touchend', () => { lastScr
 document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
+
+document.getElementById("pictures").addEventListener('click', selectPictures);
 
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
 document.getElementById("alphabetisch").addEventListener('click', () => { sortByLetter("Titel", sortingStates.get(1)); sortingStates.set(1, !sortingStates.get(1)) });
@@ -210,8 +214,21 @@ function getBookFromForm() {
         Erscheinungsjahr: document.getElementById("releaseYear").value,
         Land: document.getElementById("country").value,
         Notizen: document.getElementById("notes").value,
-        Bilder: ""                          // TODO: add support for pictures
+        Bilder: pictures                                        // TODO: test support for pictures
     };
+}
+
+async function selectPictures() {
+    const files = await open({
+        multiple: true,
+        filters: [{ extensions: ['png', 'jpg', 'jpeg'], name: "pictures" }]
+    });
+
+    document.getElementById("pictures").value = `${files.length} Bilder ausgewählt`;
+    // FIXME: change to copying files to dedicated folder:
+    for (let file of files) {
+        pictures.push(file);
+    }
 }
 
 /**
@@ -307,7 +324,7 @@ function identifyMenuButton(e) {
     y = (y / Y) * 100;
 
     let button = 0;
-    if (y < 19.5) {
+    if (y < 17.5) {
         button = 0;
     } else if (y < 23) {
         button = 1;
@@ -789,6 +806,7 @@ function loadBookDetails(title) {
                         value.style.width = "85%";
                         value.style.textAlign = "justify";
                     }
+                    // TODO: add img tag for pictures and test reading from content URIs
                     value.innerText = bookList.books[i][key];
 
                     document.getElementById("detailsList").append(property);

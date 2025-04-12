@@ -22,7 +22,6 @@
       "digestAlgorithm": "sha256",
       "timestampUrl": ""
     },
-    "longDescription": "",
     "macOS": {
       "entitlements": null,
       "exceptionDomain": "",
@@ -33,6 +32,7 @@
     "resources": [
       "resources/*"
     ],
+    "longDescription": "",
     "shortDescription": "",
     "linux": {
       "deb": {
