@@ -2,9 +2,10 @@
 
 // import filesystem access from the Tauri API
 // https://v2.tauri.app/plugin/file-system/#permissions
-const { resolveResource } = window.__TAURI__.path;
-const { readTextFile, writeTextFile } = window.__TAURI__.fs;
+const { resolveResource, resourceDir, normalize } = window.__TAURI__.path;
+const { readTextFile, writeTextFile, copyFile } = window.__TAURI__.fs;
 const { open } = window.__TAURI__.dialog;
+const { convertFileSrc } = window.__TAURI__.core;
 
 // read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
 const booksJsonPath = await resolveResource('resources/books.json');
@@ -71,7 +72,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 }
 
 // for testing on windows only ((very limited) support for mouse input)
-// document.getElementById("menuButton").addEventListener('click', toggleBookForm);
+document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 
 /// function definitions
 
@@ -214,10 +215,11 @@ function getBookFromForm() {
         Erscheinungsjahr: document.getElementById("releaseYear").value,
         Land: document.getElementById("country").value,
         Notizen: document.getElementById("notes").value,
-        Bilder: pictures                                        // TODO: test support for pictures
+        Bilder: pictures
     };
 }
 
+// TODO: write docstring
 async function selectPictures() {
     const files = await open({
         multiple: true,
@@ -225,7 +227,11 @@ async function selectPictures() {
     });
 
     document.getElementById("pictures").value = `${files.length} Bilder ausgewählt`;
-    // FIXME: change to copying files to dedicated folder:
+
+    // TODO: test on Android (works on desktop):
+    document.getElementById("test").src = convertFileSrc(files);
+
+    pictures = [];
     for (let file of files) {
         pictures.push(file);
     }
@@ -240,11 +246,18 @@ async function selectPictures() {
  * Writes the sorted book list into the json file.
  * Reloads the json list and re-builds the book list, now including the newly added book.
  */
-function addBook2List() {
+async function addBook2List() {
     let book = getBookFromForm();
 
-    if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
-        return;
+    // FIXME: commented out for more convenient testing onyl !!!
+    // if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
+    //     return;
+    // }
+
+    for (let picture of book.Bilder) {
+        // TODO: change picture filename to uniquely identifyable string:
+        await copyFile(await normalize(picture), "resources/coverImages/" + book.Titel + ".jpg", { toPathBaseDir: 11 });
+        // FIXME: update book.Bilder to contain new content URI of copied picture
     }
 
     document.getElementById("bookForm").reset();
@@ -806,7 +819,19 @@ function loadBookDetails(title) {
                         value.style.width = "85%";
                         value.style.textAlign = "justify";
                     }
-                    // TODO: add img tag for pictures and test reading from content URIs
+                    // FIXME: test reading from book.Bilder
+                    if (key == "Bilder") {
+                        document.getElementById("detailsList").append(property);
+                        value = document.createElement("img");
+                        value.src = resourceDir() + 'resources/coverImages/' + bookList.books[i][Titel] + '.jpg';
+
+                        // for (let picture of pictures) {
+                        //     value = document.createElement("img");
+                        //     value.src = picture;
+                        //     document.getElementById("detailsList").append(value);
+                        //     continue;
+                        // }
+                    }
                     value.innerText = bookList.books[i][key];
 
                     document.getElementById("detailsList").append(property);
