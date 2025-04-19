@@ -211,3 +211,13 @@ select>option {
     background-color: black;
     color: white;
 }
+
+#bookForm>img {
+    width: 15vw;
+    padding: 0 2.5vw;
+}
+
+#detailsList>img {
+    width: 90vw;
+    padding-top: 2.5vh;
+}

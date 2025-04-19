@@ -80,6 +80,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen
+- [ ] Bilder-Stuff entfernen
 
 ### UI (Seiten, etc.)
 
@@ -88,7 +89,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [x] Auswahl-Popup (o.ä.) für die Sortierweise
-- [ ] Seite für Einstellungen
+- [ ] Seite für Einstellungen (Optionen?)
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 
@@ -98,8 +99,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [x] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden) [Plugin-Doku](https://github.com/wyhaya/tauri-plugin-theme "GitHub")
+- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
-- [x] Animationen bei Seitenwechsel (?)
+- [x] Animationen bei Seitenwechsel
 - [ ] Animationen bei Anwenden einer neuen Sortierweise
 - [x] Animationen beim Anzeigen der Suchleiste
-- [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden
+- [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)

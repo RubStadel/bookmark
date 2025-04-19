@@ -116,7 +116,7 @@ function sortJSON(book) {
     let newBook = book;
     let index = 0;
 
-    for (let i = bookList.books.length - 2; i >= 0; i--) {
+    for (let i = bookList.books.length - 1; i >= 0; i--) {
         if (newBook.beendet.split(" ")[2] >= bookList.books[i].beendet.split(" ")[2]) {         // selbes Jahr oder später
             if (newBook.beendet.split(" ")[2] > bookList.books[i].beendet.split(" ")[2]) {      // späteres Jahr
                 index = i + 1;
@@ -221,18 +221,23 @@ function getBookFromForm() {
 
 // TODO: write docstring
 async function selectPictures() {
-    const files = await open({
+    const selected = await open({
         multiple: true,
         filters: [{ extensions: ['png', 'jpg', 'jpeg'], name: "pictures" }]
     });
 
-    document.getElementById("pictures").value = `${files.length} Bilder ausgewählt`;
+    document.getElementById("pictures").value = `${selected.length} Bilder ausgewählt`;
 
-    // TODO: test on Android (works on desktop):
-    document.getElementById("test").src = convertFileSrc(files);
-
+    let imgs = document.getElementsByTagName("img");
+    for (let i = 0; i < imgs.length; i++) {
+        imgs[i].parentNode.removeChild(imgs[i]);
+    }
     pictures = [];
-    for (let file of files) {
+
+    for (let file of selected) {
+        let picture = document.createElement("img");
+        picture.src = convertFileSrc(file);
+        document.getElementById("bookForm").insertBefore(picture, document.getElementById("submitButton"));
         pictures.push(file);
     }
 }
@@ -249,15 +254,21 @@ async function selectPictures() {
 async function addBook2List() {
     let book = getBookFromForm();
 
-    // FIXME: commented out for more convenient testing onyl !!!
+    // FIXME: commented out for more convenient testing only !!!
     // if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
     //     return;
     // }
 
-    for (let picture of book.Bilder) {
+    let bilder = book.Bilder;
+    book.Bilder = [];
+    let i = 0;
+    for (let picture of bilder) {
         // TODO: change picture filename to uniquely identifyable string:
-        await copyFile(await normalize(picture), "resources/coverImages/" + book.Titel + ".jpg", { toPathBaseDir: 11 });
+        let filename = book.Autor.split(" ").join("") + book.Titel.split(" ").join("") + "_" + i;
+        await copyFile(await normalize(picture), "resources/coverImages/" + filename + ".jpg", { toPathBaseDir: 11 });
+        i++;
         // FIXME: update book.Bilder to contain new content URI of copied picture
+        book.Bilder.push(filename);
     }
 
     document.getElementById("bookForm").reset();
@@ -804,7 +815,7 @@ function loadBookDetails(title) {
             continue
         }
         index = i;
-        Object.keys(bookList.books[i]).forEach(function (key) {
+        Object.keys(bookList.books[i]).forEach(async function (key) {
             if (bookList.books[i][key]) {
                 if (key == "angefangen") {
                     determineReadDates(i);
@@ -819,18 +830,15 @@ function loadBookDetails(title) {
                         value.style.width = "85%";
                         value.style.textAlign = "justify";
                     }
-                    // FIXME: test reading from book.Bilder
+
                     if (key == "Bilder") {
                         document.getElementById("detailsList").append(property);
-                        value = document.createElement("img");
-                        value.src = resourceDir() + 'resources/coverImages/' + bookList.books[i][Titel] + '.jpg';
-
-                        // for (let picture of pictures) {
-                        //     value = document.createElement("img");
-                        //     value.src = picture;
-                        //     document.getElementById("detailsList").append(value);
-                        //     continue;
-                        // }
+                        for (let picture of bookList.books[i].Bilder) {
+                            value = document.createElement("img");
+                            value.src = convertFileSrc(await resourceDir() + '/resources/coverImages/' + picture + '.jpg');
+                            document.getElementById("detailsList").append(value);
+                        }
+                        return;
                     }
                     value.innerText = bookList.books[i][key];
 
