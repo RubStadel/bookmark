@@ -80,7 +80,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen
-- [ ] Bilder-Stuff entfernen
+- [x] Bilder-Stuff entfernen
 
 ### UI (Seiten, etc.)
 

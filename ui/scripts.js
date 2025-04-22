@@ -2,10 +2,8 @@
 
 // import filesystem access from the Tauri API
 // https://v2.tauri.app/plugin/file-system/#permissions
-const { resolveResource, resourceDir, normalize } = window.__TAURI__.path;
-const { readTextFile, writeTextFile, copyFile } = window.__TAURI__.fs;
-const { open } = window.__TAURI__.dialog;
-const { convertFileSrc } = window.__TAURI__.core;
+const { resolveResource } = window.__TAURI__.path;
+const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 
 // read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
 const booksJsonPath = await resolveResource('resources/books.json');
@@ -19,7 +17,6 @@ let bookDetailsVisible = false;
 let lastScrollTop = 0;
 let lastY = 0;
 let sorted = new Map();
-let pictures = [];
 
 const datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 const bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
@@ -214,32 +211,8 @@ function getBookFromForm() {
         Reihe: document.getElementById("series").value,
         Erscheinungsjahr: document.getElementById("releaseYear").value,
         Land: document.getElementById("country").value,
-        Notizen: document.getElementById("notes").value,
-        Bilder: pictures
+        Notizen: document.getElementById("notes").value
     };
-}
-
-// TODO: write docstring
-async function selectPictures() {
-    const selected = await open({
-        multiple: true,
-        filters: [{ extensions: ['png', 'jpg', 'jpeg'], name: "pictures" }]
-    });
-
-    document.getElementById("pictures").value = `${selected.length} Bilder ausgewählt`;
-
-    let imgs = document.getElementsByTagName("img");
-    for (let i = 0; i < imgs.length; i++) {
-        imgs[i].parentNode.removeChild(imgs[i]);
-    }
-    pictures = [];
-
-    for (let file of selected) {
-        let picture = document.createElement("img");
-        picture.src = convertFileSrc(file);
-        document.getElementById("bookForm").insertBefore(picture, document.getElementById("submitButton"));
-        pictures.push(file);
-    }
 }
 
 /**
@@ -254,21 +227,8 @@ async function selectPictures() {
 async function addBook2List() {
     let book = getBookFromForm();
 
-    // FIXME: commented out for more convenient testing only !!!
-    // if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
-    //     return;
-    // }
-
-    let bilder = book.Bilder;
-    book.Bilder = [];
-    let i = 0;
-    for (let picture of bilder) {
-        // TODO: change picture filename to uniquely identifyable string:
-        let filename = book.Autor.split(" ").join("") + book.Titel.split(" ").join("") + "_" + i;
-        await copyFile(await normalize(picture), "resources/coverImages/" + filename + ".jpg", { toPathBaseDir: 11 });
-        i++;
-        // FIXME: update book.Bilder to contain new content URI of copied picture
-        book.Bilder.push(filename);
+    if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
+        return;
     }
 
     document.getElementById("bookForm").reset();
@@ -829,16 +789,6 @@ function loadBookDetails(title) {
                     if (key == "Notizen") {
                         value.style.width = "85%";
                         value.style.textAlign = "justify";
-                    }
-
-                    if (key == "Bilder") {
-                        document.getElementById("detailsList").append(property);
-                        for (let picture of bookList.books[i].Bilder) {
-                            value = document.createElement("img");
-                            value.src = convertFileSrc(await resourceDir() + '/resources/coverImages/' + picture + '.jpg');
-                            document.getElementById("detailsList").append(value);
-                        }
-                        return;
                     }
                     value.innerText = bookList.books[i][key];
 
