@@ -50,8 +50,6 @@ document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
 
-document.getElementById("pictures").addEventListener('click', selectPictures);
-
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
 document.getElementById("alphabetisch").addEventListener('click', () => { sortByLetter("Titel", sortingStates.get(1)); sortingStates.set(1, !sortingStates.get(1)) });
 document.getElementById("Autor").addEventListener('click', () => { sortByLetter("Autor", sortingStates.get(2)); sortingStates.set(2, !sortingStates.get(2)) });
@@ -69,7 +67,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 }
 
 // for testing on windows only ((very limited) support for mouse input)
-document.getElementById("menuButton").addEventListener('click', toggleBookForm);
+document.getElementById("menuButton").addEventListener('click', toggleTheme);
 
 /// function definitions
 
@@ -246,6 +244,23 @@ async function addBook2List() {
     sortByDate();
 }
 
+// TODO: write  docstring:
+function toggleTheme() {
+    let root = document.querySelector(':root');
+    let rootStyle = getComputedStyle(root);
+    if (rootStyle.getPropertyValue('--black') == "black") {
+        root.style.setProperty('--black', 'white');
+        root.style.setProperty('--white', 'black');
+        root.style.setProperty('--gold', 'gold');
+        root.style.setProperty('--transparent-black', 'rgba(255, 255, 255, 0.8)');
+    } else {
+        root.style.setProperty('--black', 'black');
+        root.style.setProperty('--white', 'white');
+        root.style.setProperty('--gold', 'darkgoldenrod');
+        root.style.setProperty('--transparent-black', 'rgba(0, 0, 0, 0.8)');
+    }
+}
+
 /**
  * Reveals the menu buttons in an animation and rotates the icon on the menu button.
  */
@@ -310,11 +325,11 @@ function identifyMenuButton(e) {
     let button = 0;
     if (y < 17.5) {
         button = 0;
-    } else if (y < 23) {
+    } else if (y < 21) {
         button = 1;
-    } else if (y < 28) {
+    } else if (y < 25) {
         button = 2;
-    } else if (y < 33) {
+    } else if (y < 30) {
         button = 3;
     } else {
         button = 4;
@@ -340,7 +355,7 @@ function highlightButton(button) {
 function resetButtonHighlight() {
     Array.from(document.getElementsByClassName("menuButtons")).forEach(
         function (element) {
-            element.style.color = "white";
+            element.style.color = "var(--white)";
             element.style.translate = "0vw 0";
         }
     );

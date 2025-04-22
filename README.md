@@ -59,10 +59,10 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Sortierkategorien (z.B. Jahre) als Zwischenüberschriften in der Liste anzeigen
 - [x] Suche von Schlagworten (mit RegEx?; mit JS oder Rust?)
 - [x] Möglichkeit neue Kategorien (Suche, Sortierung, Genre, etc.) zu Auswahlliste hinzuzufügen
-- [ ] Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)
-- [ ] Entfernen von Bildern aus dem Unterordner (und json)
-- [ ] Anzeige von Bildern auf der Detailseite von Büchern
-- [ ] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden (so, dass man darauf zugreifen kann)
+- [ ] ~~Einfügen von Bildern für Bücher (inkl. Kopieren in Unterordner)~~
+- [ ] ~~Entfernen von Bildern aus dem Unterordner (und json)~~
+- [ ] ~~Anzeige von Bildern auf der Detailseite von Büchern~~
+- [x] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden ~~(so, dass man darauf zugreifen kann)~~
 
 ### Bugfixes
 
@@ -79,7 +79,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - [x] dass Notizen nicht unten überstehen (v.a. South of the Border, West of the Sun)
 - [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
-- [ ] Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen
+- [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
 
 ### UI (Seiten, etc.)
@@ -98,10 +98,10 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Animationen für die Auswahlleiste auf der Hauptseite (Listenansicht)
 - [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [x] Suchleiste beim Herunterziehen von ganz oben anzeigen
-- [ ] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden) [Plugin-Doku](https://github.com/wyhaya/tauri-plugin-theme "GitHub")
+- [x] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
 - [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
 - [x] Animationen bei Seitenwechsel
-- [ ] Animationen bei Anwenden einer neuen Sortierweise
 - [x] Animationen beim Anzeigen der Suchleiste
-- [ ] komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)
+- [ ] ~~Animationen bei Anwenden einer neuen Sortierweise~~
+- [ ] ~~komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)~~
