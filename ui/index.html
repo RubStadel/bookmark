@@ -47,22 +47,21 @@
 
   <div class="pageFiller" id="bookFormDiv">
     <form id="bookForm" autocomplete="off">
-      <!-- TODO: Pflichtfelder als solche markieren (mit Stern *)? -->
-      <label for="title">Titel</label><br>
+      <label for="title">Titel (*)</label><br>
       <input type="text" id="title"><br>
 
-      <label for="author">Autor</label><br>
+      <label for="author">Autor (*)</label><br>
       <input type="text" id="author" list="authors"><br>
       <datalist id="authors"></datalist>
 
-      <label for="language">Sprache</label><br>
+      <label for="language">Sprache (*)</label><br>
       <input type="text" id="language" list="languages"><br>
       <datalist id="languages"></datalist>
 
-      <label for="location">Ort</label><br>
+      <label for="location">Ort (*)</label><br>
       <input type="text" id="location"><br>
 
-      <label for="startPart">angefangen</label><br>
+      <label for="startPart">angefangen (*)</label><br>
       <select id="startPart">
         <option>Anfang</option>
         <option>Mitte</option>
@@ -83,7 +82,7 @@
       </select>
       <input type="text" id="startYear" maxlength="4" size="1" style="width: initial;"><br>
 
-      <label for="endPart">beendet</label><br>
+      <label for="endPart">beendet (*)</label><br>
       <select id="endPart">
         <option>Anfang</option>
         <option>Mitte</option>

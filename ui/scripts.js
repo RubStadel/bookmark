@@ -63,7 +63,7 @@ document.getElementById("Reihe").addEventListener('click', () => { sortByLetter(
 document.getElementById("Erscheinungsjahr").addEventListener('click', () => { sortByDate("release", sortingStates.get(7)); sortingStates.set(7, !sortingStates.get(7)) });
 document.getElementById("Land").addEventListener('click', () => { sortByLetter("Land", sortingStates.get(8)); sortingStates.set(8, !sortingStates.get(8)) });
 
-// move the book form up when focuseing the lower elements so that the keyboard does not block them
+// move the book form up when focusing the lower elements so that the keyboard does not block them
 for (let i = 0; i < bottomElements.length; i++) {
     document.getElementById(bottomElements[i]).addEventListener('focus', () => { scrollForm(10 * (i + 1)) });
     document.getElementById(bottomElements[i]).addEventListener('blur', resetFormHeight);
@@ -71,7 +71,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 
 // for testing on windows only ((very limited) support for mouse input)
 document.getElementById("menuButton").addEventListener('click', toggleColorScheme);
-// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // TODO: comment in for final build
+// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // FIXME: comment in for final build
 
 /// function definitions
 
@@ -229,7 +229,6 @@ function getBookFromForm() {
 async function addBook2List() {
     let book = getBookFromForm();
 
-    // TODO: Pflichtfelder als solche markieren (mit Stern *)?
     if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
         return;
     }
@@ -260,13 +259,13 @@ function toggleColorScheme() {
         root.style.setProperty('--white', 'black');
         root.style.setProperty('--gold', 'gold');
         root.style.setProperty('--transparent-black', 'rgba(255, 255, 255, 0.8)');
-        // root.style.setProperty('--grey', 'lightgrey');       // TODO: test this look
+        root.style.setProperty('--grey', 'darkgrey');
     } else {
         root.style.setProperty('--black', 'black');
         root.style.setProperty('--white', 'white');
         root.style.setProperty('--gold', 'darkgoldenrod');
         root.style.setProperty('--transparent-black', 'rgba(0, 0, 0, 0.8)');
-        // root.style.setProperty('--grey', 'grey');
+        root.style.setProperty('--grey', 'grey');
     }
     bookList.darkTheme = !bookList.darkTheme;
     updateJSON();
@@ -436,6 +435,12 @@ function hideSearchBar() {
     document.getElementById("search").value = "";
 }
 
+/**
+ * Performs a search through all entry fields of all books in the book list.
+ * Clears the shown list of books and only re-adds those that match the search term somewhere in their entry.
+ * 
+ * Is called on every change of the users input in the search field.
+ */
 function search() {
     document.getElementById("bookList").replaceChildren();
     sorted = new Map();
@@ -505,6 +510,8 @@ function hideSortPopup() {
 }
 
 /// sorting functions
+
+// TODO: add (small) indicator how many books are in each sorting category (next to the category title)
 
 // TODO: add possibility to have headers for individual months as well as years (only for "read")
 
@@ -942,6 +949,10 @@ function translateReadDates2Form(date, startOrEnd) {
     document.getElementById(startOrEnd + "Year").value = splitDate[2];
 }
 
+/**
+ * Updates the detail information on the book that has been edited (if all required fields still contain values).
+ * Updates the json file and closes the edit form.
+ */
 function editBookDetails() {
     let book = getBookFromForm();
 
