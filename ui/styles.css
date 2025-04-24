@@ -45,6 +45,11 @@ p {
     margin: 1rem 0;
 }
 
+small {
+    font-size: 1.2rem;
+    padding-left: 2.5vw;
+}
+
 .menuButtons {
     font-weight: bold;
     color: var(--white);

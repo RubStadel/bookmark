@@ -53,6 +53,7 @@ document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
 
+// onclick functions of the sorting buttons
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
 document.getElementById("alphabetisch").addEventListener('click', () => { sortByLetter("Titel", sortingStates.get(1)); sortingStates.set(1, !sortingStates.get(1)) });
 document.getElementById("Autor").addEventListener('click', () => { sortByLetter("Autor", sortingStates.get(2)); sortingStates.set(2, !sortingStates.get(2)) });
@@ -86,7 +87,10 @@ function loadBookList() {
 
     for (let header of sorted.keys()) {
         let headerElement = document.createElement("h1");
+        let count = document.createElement("small");
         headerElement.innerText = header;
+        count.innerText = `( ${sorted.get(header).length} )`;
+        headerElement.append(count);
         document.getElementById("bookList").append(headerElement);
         for (let entry of sorted.get(header)) {
             let book = document.createElement("button");
@@ -510,8 +514,6 @@ function hideSortPopup() {
 }
 
 /// sorting functions
-
-// TODO: add (small) indicator how many books are in each sorting category (next to the category title)
 
 // TODO: add possibility to have headers for individual months as well as years (only for "read")
 
