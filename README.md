@@ -33,7 +33,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - Genre (Radio mit Möglichkeit eigene hinzuzufügen)
   - Herkunftsland des Autors
   - Sprache in der es gelesen wurde
-  - Bewertung (?)
+  - ~~Bewertung (?)~~
   - Zugehörigkeit (bei Reihen)
   - Notizen (freie Eingabe für z.B. besondere Stellen, Zitate, äußere Begebenheiten, die es besonders gemacht haben, etc.)
 
@@ -77,7 +77,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - [x] dass bisherige Inhalte richtig übernommen werden
   - [x] dass beim Schließen der richtige Knopf eingeblendet wird
   - [x] dass Notizen nicht unten überstehen (v.a. South of the Border, West of the Sun)
-- [ ] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
+- [x] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
@@ -99,7 +99,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [x] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [x] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
-- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden)
+- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden) (falls nicht möglich, jetzigen Optionen-Knopf nur für Theme-Wechsel verwenden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
 - [x] Animationen bei Seitenwechsel
 - [x] Animationen beim Anzeigen der Suchleiste

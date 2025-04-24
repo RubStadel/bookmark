@@ -37,6 +37,9 @@ sortingStates.set(0, false)
 
 sortByDate();
 
+bookList.darkTheme = !bookList.darkTheme;
+toggleColorScheme();
+
 /// event listeners
 
 // eventListeners have to be added here instead of in the html because the function names are not available there due to module scope
@@ -67,7 +70,8 @@ for (let i = 0; i < bottomElements.length; i++) {
 }
 
 // for testing on windows only ((very limited) support for mouse input)
-document.getElementById("menuButton").addEventListener('click', toggleTheme);
+document.getElementById("menuButton").addEventListener('click', toggleColorScheme);
+// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // TODO: comment in for final build
 
 /// function definitions
 
@@ -225,6 +229,7 @@ function getBookFromForm() {
 async function addBook2List() {
     let book = getBookFromForm();
 
+    // TODO: Pflichtfelder als solche markieren (mit Stern *)?
     if (!(book.Titel && book.Autor && book.Sprache && book.Ort && book.angefangen.slice(-1) != " " && book.beendet.slice(-1) != " ")) {
         return;
     }
@@ -244,21 +249,27 @@ async function addBook2List() {
     sortByDate();
 }
 
-// TODO: write  docstring:
-function toggleTheme() {
+/**
+ * Toggles the color theme of the app between light and dark mode.
+ * Looks up the set preference from the json file and toggles that value as well.
+ */
+function toggleColorScheme() {
     let root = document.querySelector(':root');
-    let rootStyle = getComputedStyle(root);
-    if (rootStyle.getPropertyValue('--black') == "black") {
+    if (bookList.darkTheme) {
         root.style.setProperty('--black', 'white');
         root.style.setProperty('--white', 'black');
         root.style.setProperty('--gold', 'gold');
         root.style.setProperty('--transparent-black', 'rgba(255, 255, 255, 0.8)');
+        // root.style.setProperty('--grey', 'lightgrey');       // TODO: test this look
     } else {
         root.style.setProperty('--black', 'black');
         root.style.setProperty('--white', 'white');
         root.style.setProperty('--gold', 'darkgoldenrod');
         root.style.setProperty('--transparent-black', 'rgba(0, 0, 0, 0.8)');
+        // root.style.setProperty('--grey', 'grey');
     }
+    bookList.darkTheme = !bookList.darkTheme;
+    updateJSON();
 }
 
 /**

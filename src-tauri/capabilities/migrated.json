@@ -3,8 +3,7 @@
   "description": "permissions that were migrated from v1",
   "local": true,
   "windows": [
-    "main",
-    "bookDetails"
+    "main"
   ],
   "permissions": [
     "core:default",

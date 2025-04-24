@@ -59,17 +59,6 @@
         "title": "bookmark",
         "width": 400,
         "useHttpsScheme": true
-      },
-      {
-        "label": "bookDetails",
-        "create": false,
-        "url": "bookDetails.html",
-        "height": 800,
-        "width": 400,
-        "x": 200,
-        "y": 200,
-        "resizable": false,
-        "title": "bookDetails"
       }
     ],
     "security": {
