@@ -81,6 +81,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
+- [ ] Überschreiben der JSON-Datei über Rust
 
 ### UI (Seiten, etc.)
 
@@ -89,7 +90,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [x] Auswahl-Popup (o.ä.) für die Sortierweise
-- [ ] Seite für Einstellungen (Optionen?)
+- [ ] Seite für Optionen
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 
@@ -99,7 +100,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [x] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [x] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
-- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden) (falls nicht möglich, jetzigen Optionen-Knopf nur für Theme-Wechsel verwenden)
+- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
 - [x] Animationen bei Seitenwechsel
 - [x] Animationen beim Anzeigen der Suchleiste

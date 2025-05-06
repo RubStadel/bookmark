@@ -226,6 +226,7 @@ dependencies = [
  "serde_json",
  "tauri",
  "tauri-build",
+ "tauri-plugin-android-fs",
  "tauri-plugin-dialog",
  "tauri-plugin-fs",
 ]
@@ -1419,12 +1420,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "http-range"
-version = "0.1.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "21dec9db110f5f872ed9699c3ecf50cf16f423502706ba5c72462e28d3157573"
-
-[[package]]
 name = "httparse"
 version = "1.9.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2062,7 +2057,7 @@ version = "0.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "af1844ef2428cc3e1cb900be36181049ef3d3193c63e43026cfe202983b27a56"
 dependencies = [
- "proc-macro-crate 2.0.0",
+ "proc-macro-crate 3.3.0",
  "proc-macro2",
  "quote",
  "syn 2.0.94",
@@ -3493,7 +3488,6 @@ dependencies = [
  "gtk",
  "heck 0.5.0",
  "http",
- "http-range",
  "jni",
  "libc",
  "log",
@@ -3605,6 +3599,21 @@ dependencies = [
  "tauri-utils",
  "toml 0.8.19",
  "walkdir",
+]
+
+[[package]]
+name = "tauri-plugin-android-fs"
+version = "9.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "afe8ff9cd6ea0b75ecb31a15e373da7c77ea34e56e4234bb52d1850072451d14"
+dependencies = [
+ "percent-encoding",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-plugin",
+ "tauri-plugin-fs",
+ "thiserror 2.0.10",
 ]
 
 [[package]]

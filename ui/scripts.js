@@ -6,8 +6,9 @@ const { resolveResource } = window.__TAURI__.path;
 const { readTextFile, writeTextFile } = window.__TAURI__.fs;
 
 // read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
-const booksJsonPath = await resolveResource('resources/books.json');
-const bookList = JSON.parse(await readTextFile(booksJsonPath));
+// const booksJsonPath = await resolveResource('resources/books.json');
+// const bookList = JSON.parse(await readTextFile(booksJsonPath));
+const bookList = invoke('read_file').then(); // TODO: test!
 
 /// global variable definitions
 
@@ -106,7 +107,8 @@ function loadBookList() {
  */
 async function updateJSON() {
     let booksJson = JSON.stringify(bookList);
-    await writeTextFile(booksJsonPath, booksJson);
+    // await writeTextFile(booksJsonPath, booksJson);
+    invoke('edit_file', booksJson); // TODO: test!
 }
 
 /**
@@ -515,7 +517,7 @@ function hideSortPopup() {
 
 /// sorting functions
 
-// TODO: add possibility to have headers for individual months as well as years (only for "read")
+// TODO: add possibility to have headers for individual months as well as years (only for "read") (?)
 
 /**
  * Sorts the book list chronologically by writing titles into the "sorted" map in order.

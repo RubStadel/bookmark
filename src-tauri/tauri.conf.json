@@ -60,18 +60,6 @@
         "width": 400,
         "useHttpsScheme": true
       }
-    ],
-    "security": {
-      "csp": null,
-      "assetProtocol": {
-        "enable": true,
-        "scope": {
-          "requireLiteralLeadingDot": false,
-          "allow": [
-            "**/*"
-          ]
-        }
-      }
-    }
+    ]
   }
 }
