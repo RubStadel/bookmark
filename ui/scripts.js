@@ -1,14 +1,10 @@
 "use strict";
 
-// import filesystem access from the Tauri API
-// https://v2.tauri.app/plugin/file-system/#permissions
-const { resolveResource } = window.__TAURI__.path;
-const { readTextFile, writeTextFile } = window.__TAURI__.fs;
+const { invoke } = window.__TAURI__.core;
 
-// read the text file in the `$RESOURCE/resources/books.json` path and write the contents into the json list.
-// const booksJsonPath = await resolveResource('resources/books.json');
-// const bookList = JSON.parse(await readTextFile(booksJsonPath));
-const bookList = invoke('read_file').then(); // TODO: test!
+// read the PrivateDir::Data/resources/books.json file and write the contents into the json list.
+let bookList = "";
+await invoke('read_file').then((fileContent) => bookList = JSON.parse(fileContent));
 
 /// global variable definitions
 
@@ -107,8 +103,7 @@ function loadBookList() {
  */
 async function updateJSON() {
     let booksJson = JSON.stringify(bookList);
-    // await writeTextFile(booksJsonPath, booksJson);
-    invoke('edit_file', booksJson); // TODO: test!
+    invoke('edit_file', { contents: booksJson });
 }
 
 /**
@@ -395,7 +390,7 @@ function clickMenuButton(e) {
             openSortPopup();
             break;
         case 4:      // FIXME: change to open settings page when ready
-            sortByLetter("Sprache", true);    // (useful for testing purposes !)
+            invoke('copy_to_public_dir');    // (useful for testing purposes !)
             break;
         default:
             break;
@@ -885,7 +880,7 @@ function translateReadDates(date) {
 function toggleEditForm() {
     let formDiv = document.getElementById("bookFormDiv");
     if (bookFormVisible) {
-        formDiv.style.top = "-150%";
+        formDiv.style.top = "-250%";
         bookFormVisible = false;
         document.getElementById("editButton").style.opacity = "1";
         document.getElementById("bookDetails").style.top = "0%";
@@ -907,7 +902,7 @@ function toggleEditForm() {
  * Resets the android back button callback to the correct functionality based on whether or not the bookDetails "page" is visible.
  */
 function closeForm() {
-    document.getElementById("bookFormDiv").style.top = "-150%";
+    document.getElementById("bookFormDiv").style.top = "-250%";
     document.getElementById("bookForm").reset();
     bookFormVisible = false;
 
@@ -966,7 +961,9 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    bookList.books.splice(index, 1);
+    console.log(index);
+    bookList.books.splice(index, 1); // TODO: test!
+    console.log(bookList);
 
     sortJSON(book);
     updateJSON();

@@ -33,7 +33,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - Genre (Radio mit Möglichkeit eigene hinzuzufügen)
   - Herkunftsland des Autors
   - Sprache in der es gelesen wurde
-  - ~~Bewertung (?)~~
+  - ~~Bewertung (?)~~ (Favoriten?)
   - Zugehörigkeit (bei Reihen)
   - Notizen (freie Eingabe für z.B. besondere Stellen, Zitate, äußere Begebenheiten, die es besonders gemacht haben, etc.)
 
@@ -81,7 +81,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
-- [ ] Überschreiben der JSON-Datei über Rust
+- [x] Überschreiben der JSON-Datei über Rust
+- [ ] Beim Bearbeiten von Notizen wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
+- [ ] Wenn man den Titel ändert, wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
 
 ### UI (Seiten, etc.)
 
