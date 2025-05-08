@@ -961,13 +961,13 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    console.log(index);
-    bookList.books.splice(index, 1); // TODO: test!
-    console.log(bookList);
+    bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
 
     sortJSON(book);
     updateJSON();
 
     loadBookDetails(book.Titel);
     toggleEditForm();
+    sortByDate();
+    window.androidBackCallback = closeBookDetails;
 }

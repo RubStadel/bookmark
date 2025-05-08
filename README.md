@@ -82,8 +82,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
 - [x] Überschreiben der JSON-Datei über Rust
-- [ ] Beim Bearbeiten von Notizen wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
-- [ ] Wenn man den Titel ändert, wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
+- [x] Beim Bearbeiten von Büchern wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
+- [x] Wenn man den Titel ändert wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
+- [x] Wenn man Details bearbeitet hat führt der Back-Button nicht zur Hauptseite zurück (wird in sortByDate überschrieben)
 
 ### UI (Seiten, etc.)
 

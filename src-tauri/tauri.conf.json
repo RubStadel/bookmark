@@ -32,9 +32,6 @@
     "android": {
       "minSdkVersion": 29
     },
-    "resources": [
-      "resources/*"
-    ],
     "longDescription": "",
     "shortDescription": "",
     "linux": {

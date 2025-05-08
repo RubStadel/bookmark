@@ -34,7 +34,6 @@ fn read_file(app: tauri::AppHandle) -> String {
         let content = r##"{"books": [], "datalists": {"authors": [], "languages": [], "genres": [], "seriesDatalist": [], "countries": []}, "darkTheme": true}"##;
         std::fs::create_dir_all(file_path.parent().unwrap()).unwrap();
         std::fs::write(&file_path, content).unwrap();
-        println!("Didn't exist!");
     }
 
     std::fs::read_to_string(&file_path).unwrap()
@@ -46,15 +45,7 @@ fn edit_file(app: tauri::AppHandle, contents: &[u8]) -> tauri_plugin_android_fs:
     let api = app.android_fs();
     let private_storage = api.private_storage();
 
-    // Write file
     private_storage.write(PrivateDir::Data, "resources/books.json", contents)?;
-
-    // Read file // TODO: remove when testing is finished
-    let dir_path = private_storage.resolve_path(PrivateDir::Data)?;
-    let file_path = dir_path.join("resources/books.json");
-
-    let file_content = std::fs::read_to_string(&file_path)?;
-    println!("{:?}", file_content);
 
     Ok(true)
 }
@@ -78,8 +69,6 @@ fn copy_to_public_dir(app: tauri::AppHandle) -> tauri_plugin_android_fs::Result<
     )?;
 
     api.copy_via_kotlin(&dir_path, &file_uri)?;
-
-    println!("Successfully copied."); // FIXME: remove all println
 
     Ok(true)
 }
