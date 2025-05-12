@@ -3,6 +3,7 @@ use tauri_plugin_android_fs::{AndroidFsExt, PrivateDir, PublicGeneralPurposeDir}
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_android_fs::init())
         .plugin(tauri_plugin_fs::init())
         .invoke_handler(tauri::generate_handler![
@@ -52,7 +53,7 @@ fn edit_file(app: tauri::AppHandle, contents: &[u8]) -> tauri_plugin_android_fs:
 
 /// Copies the "books.json" file from the private data storage to the public documents directory.
 ///
-/// New file is a .txt because I have no App on my phone that can display json files :( TODO: remove when it creates a .json
+/// New file is a .txt because I have no app on my phone that can display json files :( TODO: remove when it creates a .json
 #[tauri::command]
 fn copy_to_public_dir(app: tauri::AppHandle) -> tauri_plugin_android_fs::Result<bool> {
     let api = app.android_fs();
@@ -64,7 +65,7 @@ fn copy_to_public_dir(app: tauri::AppHandle) -> tauri_plugin_android_fs::Result<
     //// in /Documents/:
     let file_uri = public_storage.create_file_in_public_dir(
         PublicGeneralPurposeDir::Documents,
-        "exported.txt",
+        "bookmark_exported.txt",
         Some("text/plain"), // TODO: change to "applicaton/json" when done testing
     )?;
 

@@ -10,6 +10,7 @@
     "fs:default",
     "android-fs:default",
     "android-fs:allow-noop",
-    "dialog:default"
+    "dialog:default",
+    "opener:default"
   ]
 }

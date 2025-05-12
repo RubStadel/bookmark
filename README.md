@@ -78,7 +78,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
   - [x] dass beim Schließen der richtige Knopf eingeblendet wird
   - [x] dass Notizen nicht unten überstehen (v.a. South of the Border, West of the Sun)
 - [x] Sicherstellen, dass Detail-Form nicht über die Suchleiste ragt
-- [ ] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
+- [x] versuchen, Tauri-Konsolen-Fehler/-Warnungen zu verstehen und zu beheben
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
 - [x] Überschreiben der JSON-Datei über Rust
@@ -93,7 +93,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Eingabefenster für das Anpassen eines Buches (von bookDetails kommend)
 - [x] neue Seite für jedes Buch öffnen (Detailanzeige)
 - [x] Auswahl-Popup (o.ä.) für die Sortierweise
-- [ ] Seite für Optionen
+- [ ] ~~Seite für Optionen~~
+- [x] Optionen in Menü einfügen
 
 ### Nichtfunktionalitätsrelevante Features (Verschönerungen)
 

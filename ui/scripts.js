@@ -1,6 +1,7 @@
 "use strict";
 
 const { invoke } = window.__TAURI__.core;
+const { openUrl } = window.__TAURI__.opener;
 
 // read the PrivateDir::Data/resources/books.json file and write the contents into the json list.
 let bookList = "";
@@ -255,18 +256,27 @@ async function addBook2List() {
  */
 function toggleColorScheme() {
     let root = document.querySelector(':root');
+    let button = document.getElementById("colorSchemeButton");
     if (bookList.darkTheme) {
         root.style.setProperty('--black', 'white');
         root.style.setProperty('--white', 'black');
         root.style.setProperty('--gold', 'gold');
         root.style.setProperty('--transparent-black', 'rgba(255, 255, 255, 0.8)');
         root.style.setProperty('--grey', 'darkgrey');
+        button.innerText = "Nachtmodus";
+        let icon = document.createElement("ion-icon");
+        icon.name = "moon-outline";
+        button.append(icon);
     } else {
         root.style.setProperty('--black', 'black');
         root.style.setProperty('--white', 'white');
         root.style.setProperty('--gold', 'darkgoldenrod');
         root.style.setProperty('--transparent-black', 'rgba(0, 0, 0, 0.8)');
         root.style.setProperty('--grey', 'grey');
+        button.innerText = "Tagmodus";
+        let icon = document.createElement("ion-icon");
+        icon.name = "sunny-outline";
+        button.append(icon);
     }
     bookList.darkTheme = !bookList.darkTheme;
     updateJSON();
@@ -334,16 +344,12 @@ function identifyMenuButton(e) {
     y = (y / Y) * 100;
 
     let button = 0;
-    if (y < 17.5) {
+    if (y < 16.5) {
         button = 0;
-    } else if (y < 21) {
-        button = 1;
-    } else if (y < 25) {
-        button = 2;
-    } else if (y < 30) {
-        button = 3;
+    } else if (y < 43.5) {
+        button = Math.floor((y - 16.5) / 4.5) + 1;
     } else {
-        button = 4;
+        button = 7;
     }
 
     return button;
@@ -376,7 +382,7 @@ function resetButtonHighlight() {
  * Activates the button the touch was released over.
  * @param {Event} e - touch event
  */
-function clickMenuButton(e) {
+async function clickMenuButton(e) {
     let button = identifyMenuButton(e);
 
     switch (button) {
@@ -389,8 +395,17 @@ function clickMenuButton(e) {
         case 3:
             openSortPopup();
             break;
-        case 4:      // FIXME: change to open settings page when ready
-            invoke('copy_to_public_dir');    // (useful for testing purposes !)
+        case 4:
+            toggleColorScheme();
+            break;
+        case 5:
+            // importJSON(); // TODO: importing function doesn't exist yet
+            break;
+        case 6:
+            invoke('copy_to_public_dir');
+            break;
+        case 7:
+            await openUrl("https://github.com/RubStadel/bookmark");
             break;
         default:
             break;
@@ -462,6 +477,11 @@ function search() {
     }
 
     window.androidBackCallback = sortByDate;
+}
+
+// TODO: write docstring
+function importJSON() {
+
 }
 
 /**
@@ -961,7 +981,7 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
+    bookList.books[index] = book;
 
     sortJSON(book);
     updateJSON();
