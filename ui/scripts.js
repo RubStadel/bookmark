@@ -70,7 +70,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 
 // for testing on windows only ((very limited) support for mouse input)
 document.getElementById("menuButton").addEventListener('click', toggleColorScheme);
-// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // FIXME: comment in for final build
+// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // TODO: comment in for final build
 
 /// function definitions
 
@@ -92,8 +92,8 @@ function loadBookList() {
         document.getElementById("bookList").append(headerElement);
         for (let entry of sorted.get(header)) {
             let book = document.createElement("button");
-            book.innerText = entry;
-            book.addEventListener("click", () => loadBookDetails(entry));
+            book.innerText = entry[0];
+            book.addEventListener("click", () => loadBookDetails(`${entry[0]}_${entry[1]}_${entry[2]}`)); // FIXME: enable re-reads
             document.getElementById("bookList").append(book);
         }
     }
@@ -239,7 +239,7 @@ async function addBook2List() {
 
     let bookButton = document.createElement("button");
     bookButton.innerText = book.Titel;
-    bookButton.addEventListener("click", () => loadBookDetails(book.Titel));
+    bookButton.addEventListener("click", () => loadBookDetails(`${book.Titel}_${book.Sprache}_${book.beendet.split(" ")[2]}`));
     document.getElementById("bookList").append(bookButton);
 
     sortJSON(book);
@@ -399,7 +399,7 @@ async function clickMenuButton(e) {
             toggleColorScheme();
             break;
         case 5:
-            // importJSON(); // TODO: importing function doesn't exist yet
+            importJSON();
             break;
         case 6:
             invoke('copy_to_public_dir');
@@ -468,7 +468,7 @@ function search() {
                 if (bookList.books[i][key].toLowerCase().includes(searchText)) {
                     let book = document.createElement("button");
                     book.innerText = bookList.books[i].Titel;
-                    book.addEventListener("click", () => loadBookDetails(bookList.books[i].Titel));
+                    book.addEventListener("click", () => loadBookDetails(`${bookList.books[i].Titel}_${bookList.books[i].Sprache}_${bookList.books[i].beendet.split(" ")[2]}`));
                     document.getElementById("bookList").append(book);
                     sorted.set(bookList.books[i].Titel);
                 }
@@ -481,7 +481,10 @@ function search() {
 
 // TODO: write docstring
 function importJSON() {
-
+    // read JSON
+    // for each book (incl. language and year) and datalist option in the JSON, check if it already exists in bookList
+    // if not, add it to bookList, else continue
+    // updateJSON();
 }
 
 /**
@@ -535,7 +538,7 @@ function hideSortPopup() {
 // TODO: add possibility to have headers for individual months as well as years (only for "read") (?)
 
 /**
- * Sorts the book list chronologically by writing titles into the "sorted" map in order.
+ * Sorts the book list chronologically by writing title, language and endYear into the "sorted" map in order.
  * Then calls loadBookList() to add respective HTML elements for headers (years) and titles.
  * 
  * The loop for determining if the order is reversed is implemented branchlessly.
@@ -556,7 +559,7 @@ function sortByDate(date = "read", isReversed = false) {
         } else {
             yearList = sorted.get(year);
         }
-        yearList.push(bookList.books[i - !isReversed].Titel);
+        yearList.push([bookList.books[i - !isReversed].Titel, bookList.books[i - !isReversed].Sprache, year]);
         sorted.set(year, yearList);
     }
     if (date == "release") {
@@ -606,14 +609,13 @@ function sortByLetter(parameter, isReversed = false) {
         if (parameter == "Ort") {
             letter = bookList.books[i][parameter].split(", ");
             for (let tmp of letter) {
-                console.log("tmp: ", tmp);
                 if (!sorted.has(tmp)) {
                     sorted.set(tmp, "");
                     letterList = [];
                 } else {
                     letterList = sorted.get(tmp);
                 }
-                letterList.push(bookList.books[i].Titel);
+                letterList.push([bookList.books[i].Titel, bookList.books[i].Sprache, bookList.books[i].beendet.split(" ")[2]]);
                 sorted.set(tmp, letterList);
             }
         } else {
@@ -623,7 +625,7 @@ function sortByLetter(parameter, isReversed = false) {
             } else {
                 letterList = sorted.get(letter);
             }
-            letterList.push(bookList.books[i].Titel);
+            letterList.push([bookList.books[i].Titel, bookList.books[i].Sprache, bookList.books[i].beendet.split(" ")[2]]);
             sorted.set(letter, letterList);
         }
     }
@@ -749,17 +751,18 @@ function sortAscendingArray(array) {
     let sortedMap = new Map();
     let numbers = [];
     for (let i = 0; i < bookList.books.length; i++) {
-        if (!array.includes(bookList.books[i].Titel)) {
+        if (!array.includes(bookList.books[i].Titel)) { // FIXME: enable re-reads
             continue
         }
         numbers.push(bookList.books[i].Reihe.split(", ")[1]);
-        sortedMap.set(bookList.books[i].Reihe.split(", ")[1], bookList.books[i].Titel);
+        sortedMap.set(bookList.books[i].Reihe.split(", ")[1], bookList.books[i].Titel); // FIXME: enable re-reads
     }
     numbers.sort();
     for (let entry of numbers) {
         sortedArray.push(sortedMap.get(entry))
     }
 
+    console.log(sortedArray);
     return sortedArray;
 }
 
@@ -783,7 +786,7 @@ function sortAlphabeticallyArray(array) {
         }
     }
     for (let entry of array) {
-        sortedArray.push(entry);
+        sortedArray.push(entry); // FIXME: enable re-reads
     }
     return sortedArray;
 }
@@ -818,12 +821,12 @@ function closeBookDetails() {
  * Opens the bookDetails "page" and loads the details of the selected book by searching the json list for the title.
  * @param {string} title - title of the selected book
  */
-function loadBookDetails(title) {
+function loadBookDetails(info) {
     openBookDetails();
     document.getElementById("detailsList").replaceChildren();
 
     for (let i = 0; i < bookList.books.length; i++) {
-        if (bookList.books[i].Titel != title) {
+        if (`${bookList.books[i].Titel}_${bookList.books[i].Sprache}_${bookList.books[i].beendet.split(" ")[2]}` != info) {
             continue
         }
         index = i;
@@ -981,12 +984,13 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    bookList.books[index] = book;
+    bookList.books[index] = book; // FIXME:
+    // bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
 
     sortJSON(book);
     updateJSON();
 
-    loadBookDetails(book.Titel);
+    loadBookDetails(`${book.Titel}_${book.Sprache}_${book.beendet.split(" ")[2]}`);
     toggleEditForm();
     sortByDate();
     window.androidBackCallback = closeBookDetails;

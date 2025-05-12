@@ -63,6 +63,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] ~~Entfernen von Bildern aus dem Unterordner (und json)~~
 - [ ] ~~Anzeige von Bildern auf der Detailseite von Büchern~~
 - [x] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden ~~(so, dass man darauf zugreifen kann)~~
+- [ ] Mehrere Einträge pro Buch (Titel) ermöglichen (relevant bei Re-Reads)
+- [ ] bei allen Eingaben trailing spaces entfernen
 
 ### Bugfixes
 
@@ -82,7 +84,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] ~~Android-Permissions anschauen und testen, ob noch welche fehlen, um Bilder kopieren zu dürfen~~
 - [x] Bilder-Stuff entfernen
 - [x] Überschreiben der JSON-Datei über Rust
-- [x] Beim Bearbeiten von Büchern wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
+- [ ] Beim Bearbeiten von Büchern wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
 - [x] Wenn man den Titel ändert wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
 - [x] Wenn man Details bearbeitet hat führt der Back-Button nicht zur Hauptseite zurück (wird in sortByDate überschrieben)
 
@@ -110,3 +112,4 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Animationen beim Anzeigen der Suchleiste
 - [ ] ~~Animationen bei Anwenden einer neuen Sortierweise~~
 - [ ] ~~komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)~~
+- [ ] Reihe-Input aufteilen und neuen Zahlen-Input für Teil erstellen
