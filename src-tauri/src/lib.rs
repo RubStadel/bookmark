@@ -9,6 +9,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             read_file,
             edit_file,
+            import_json,
             copy_to_public_dir
         ])
         .run(tauri::generate_context!())
@@ -51,9 +52,7 @@ fn edit_file(app: tauri::AppHandle, contents: &[u8]) -> tauri_plugin_android_fs:
     Ok(true)
 }
 
-/// Copies the "books.json" file from the private data storage to the public documents directory.
-///
-/// New file is a .txt because I have no app on my phone that can display json files :( TODO: remove when it creates a .json
+/// Copies the "books.json" file from the private data storage to the public documents directory as "bookmark_exported.json".
 #[tauri::command]
 fn copy_to_public_dir(app: tauri::AppHandle) -> tauri_plugin_android_fs::Result<bool> {
     let api = app.android_fs();
@@ -65,11 +64,31 @@ fn copy_to_public_dir(app: tauri::AppHandle) -> tauri_plugin_android_fs::Result<
     //// in /Documents/:
     let file_uri = public_storage.create_file_in_public_dir(
         PublicGeneralPurposeDir::Documents,
-        "bookmark_exported.txt",
-        Some("text/plain"), // TODO: change to "applicaton/json" when done testing
+        "bookmark_exported.json",
+        Some("application/json"),
     )?;
 
     api.copy_via_kotlin(&dir_path, &file_uri)?;
 
     Ok(true)
+}
+
+/// Opens a file picker dialog to let the user select a single JSON file.
+/// The contents of this file are returned to the frontend.
+#[tauri::command]
+fn import_json(app: tauri::AppHandle) -> String {
+    let api = app.android_fs();
+    let initial_location = api
+        .resolve_initial_location(PublicGeneralPurposeDir::Download, false)
+        .unwrap();
+
+    let selected_files = api
+        .show_open_file_dialog(Some(&initial_location), &["application/json"], false)
+        .unwrap();
+
+    if selected_files.is_empty() {
+        String::from("")
+    } else {
+        api.read_to_string(&selected_files[0]).unwrap()
+    }
 }

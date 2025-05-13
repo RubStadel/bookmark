@@ -106,7 +106,9 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Schriftart ändern (ähnlich zu Ratio-Schriftart: [Outline (wird verwendet)](https://fonts.google.com/specimen/Outfit "Outline"), [Lexend](https://fonts.google.com/specimen/Lexend "Lexend"))
 - [x] Suchleiste beim Herunterziehen von ganz oben anzeigen
 - [x] hellen/dunklen Modus einbauen (inkl. Möglichkeit des Wechselns zwischen den beiden)
-- [ ] Möglichkeit, json-Datei zu im- und exportieren (beim Importieren Duplikate vermeiden)
+- [x] Möglichkeit, json-Datei zu im- und exportieren
+  - [x] Export (inkl. Nachricht an User wo es gespeichert wurde)
+  - [x] Import (Duplikate vermeiden)
 - [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
 - [x] Animationen bei Seitenwechsel
 - [x] Animationen beim Anzeigen der Suchleiste

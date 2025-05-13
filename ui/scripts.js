@@ -69,8 +69,7 @@ for (let i = 0; i < bottomElements.length; i++) {
 }
 
 // for testing on windows only ((very limited) support for mouse input)
-document.getElementById("menuButton").addEventListener('click', toggleColorScheme);
-// document.getElementById("menuButton").addEventListener('click', toggleBookForm);     // TODO: comment in for final build
+document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 
 /// function definitions
 
@@ -248,7 +247,7 @@ async function addBook2List() {
 
     sortJSON(book);
 
-    updateJSON();
+    await updateJSON();
     toggleBookForm();
 
     sortByDate();
@@ -403,10 +402,11 @@ async function clickMenuButton(e) {
             toggleColorScheme();
             break;
         case 5:
-            importJSON();
+            await importJSON();
             break;
         case 6:
-            invoke('copy_to_public_dir');
+            await invoke('copy_to_public_dir');
+            alert("Die JSON wurde unter ~Documents/bookmark_exported.json gespeichert.")
             break;
         case 7:
             await openUrl("https://github.com/RubStadel/bookmark");
@@ -483,12 +483,52 @@ function search() {
     window.androidBackCallback = sortByDate;
 }
 
-// TODO: write docstring
-function importJSON() {
-    // read JSON
-    // for each book (incl. language and year) and datalist option in the JSON, check if it already exists in bookList
-    // if not, add it to bookList, else continue
-    // updateJSON();
+/**
+ * Imports an existing JSON file by promting the user to select a file (via Rust Command).
+ * The content of this file is checked for duplicates with the local JSON.
+ * Any books or datalist options that do not already exist are added to the local JSON.
+ * 
+ * Shows an alert to the user to inform them how many books were imported.
+ * Sorts and updates the local JSON and redraws the shown bookList via sortByDate().
+ */
+async function importJSON() {
+    let imported = "";
+    await invoke('import_json').then((fileContent) => { imported = JSON.parse(fileContent) });
+    let count = 0;
+
+    if (imported.books) {
+        // books:
+        let infoArray = [];
+        for (let i = 0; i < bookList.books.length; i++) {
+            infoArray.push(`${bookList.books[i].Titel}_${bookList.books[i].Sprache}_${bookList.books[i].beendet.split(" ")[2]}`);
+        }
+        for (let i = 0; i < imported.books.length; i++) {
+            if (!infoArray.includes(`${imported.books[i].Titel}_${imported.books[i].Sprache}_${imported.books[i].beendet.split(" ")[2]}`)) {
+                let bookButton = document.createElement("button");
+                bookButton.innerText = imported.books[i].Titel;
+                bookButton.addEventListener("click", () => loadBookDetails(`${imported.books[i].Titel}_${imported.books[i].Sprache}_${imported.books[i].beendet.split(" ")[2]}`));
+                document.getElementById("bookList").append(bookButton);
+
+                sortJSON(imported.books[i]);
+                count++;
+            }
+        }
+        // datalists:
+        for (let i = 0; i < imported.datalists.length; i++) {
+            for (let l = 0; l < bookList.datalists.length; l++) {
+                for (let k = 0; k < imported.datalists[i].length; k++) {
+                    if (!bookList.datalists[l].includes(imported.datalists[i][k])) {
+                        bookList.datalists[l].push(imported.datalists[i][k]);
+                    }
+                }
+            };
+        };
+        bookList.darkTheme = imported.darkTheme;
+
+        await updateJSON();
+        sortByDate();
+    }
+    alert(`Es wurden ${count} Bücher eingelesen.`);
 }
 
 /**
@@ -997,7 +1037,6 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    // bookList.books[index] = book; // FIXME:
     bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
 
     sortJSON(book);
