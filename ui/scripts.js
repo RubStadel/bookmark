@@ -93,7 +93,7 @@ function loadBookList() {
         for (let entry of sorted.get(header)) {
             let book = document.createElement("button");
             book.innerText = entry[0];
-            book.addEventListener("click", () => loadBookDetails(`${entry[0]}_${entry[1]}_${entry[2]}`)); // FIXME: enable re-reads
+            book.addEventListener("click", () => loadBookDetails(`${entry[0]}_${entry[1]}_${entry[2]}`));
             document.getElementById("bookList").append(book);
         }
     }
@@ -559,7 +559,7 @@ function sortByDate(date = "read", isReversed = false) {
         } else {
             yearList = sorted.get(year);
         }
-        yearList.push([bookList.books[i - !isReversed].Titel, bookList.books[i - !isReversed].Sprache, year]);
+        yearList.push([bookList.books[i - !isReversed].Titel, bookList.books[i - !isReversed].Sprache, bookList.books[i - !isReversed].beendet.split(" ")[2]]);
         sorted.set(year, yearList);
     }
     if (date == "release") {
@@ -572,6 +572,8 @@ function sortByDate(date = "read", isReversed = false) {
 
 /**
  * Sorts the entries in the "sorted" map in chronological order and returns the new map.
+ * 
+ * If the release year is not given, the book is added to the category "Unbekannt".
  * @param {boolean} isReversed - whether to reverse the chronological order or not; defaults to false
  * @returns chronologically sorted map
  */
@@ -583,7 +585,11 @@ function sortChronologically(isReversed = false) {
     }
     years.sort();
     for (let i = ((years.length - 1) * !isReversed); i != (years.length * isReversed) - !isReversed; i -= (1 - (2 * isReversed))) {
-        sortedChrono.set(years[i], sorted.get(years[i]));
+        if (years[i]) {
+            sortedChrono.set(years[i], sorted.get(years[i]));
+        } else {
+            sortedChrono.set("Unbekannt", sortAlphabeticallyArray(sorted.get(years[i])));
+        }
     }
     return sortedChrono;
 }
@@ -656,14 +662,14 @@ function sortAlphabeticallyTitle(isReversed = false) {
                     for (let entry of sorted.get(letter)) {
                         others.push(entry);
                     }
-                    sortedAlpha.set("Sonstige", sortAlphabeticallyArray(others));
+                    sortedAlpha.set("Sonstige", sortAlphabeticallyArray(others, index = 1));
                     sorted.delete(letter);
                 }
             }
         }
         let letter = alphabet[i].toUpperCase();
         if (sorted.has(letter)) {
-            sortedAlpha.set(letter, sortAlphabeticallyArray(sorted.get(letter)));
+            sortedAlpha.set(letter, sortAlphabeticallyArray(sorted.get(letter), index = 1));
             sorted.delete(letter);
         }
     }
@@ -671,7 +677,7 @@ function sortAlphabeticallyTitle(isReversed = false) {
         for (let entry of sorted.get(letter)) {
             others.push(entry);
         }
-        sortedAlpha.set("Sonstige", sortAlphabeticallyArray(others));
+        sortedAlpha.set("Sonstige", sortAlphabeticallyArray(others, index = 1));
     }
     return sortedAlpha;
 }
@@ -705,7 +711,7 @@ function sortAlphabetically(parameter = "", isReversed = false) {
         for (let entry of sorted.keys()) {
             letters.push(entry);
         }
-        if (parameter == "Autor" || parameter == "Sprache" || parameter == "Ort" || parameter == "Genre" || parameter == "Land") {
+        if (parameter == "Autor" || parameter == "Sprache" || parameter == "Ort" || parameter == "Genre" || parameter == "Land" || parameter == "Reihe") {
             if (parameter == "Autor") {
                 match = letters.filter((element) => element.split(" ")[element.split(" ").length - 1][0] == letter);
             } else {
@@ -747,38 +753,41 @@ function sortAlphabetically(parameter = "", isReversed = false) {
  * @returns sorted array
  */
 function sortAscendingArray(array) {
+    let titles = [];
+    array.forEach((element) => titles.push(element[0]));
+
     let sortedArray = [];
     let sortedMap = new Map();
     let numbers = [];
     for (let i = 0; i < bookList.books.length; i++) {
-        if (!array.includes(bookList.books[i].Titel)) { // FIXME: enable re-reads
+        if (!titles.includes(bookList.books[i].Titel)) {
             continue
         }
         numbers.push(bookList.books[i].Reihe.split(", ")[1]);
-        sortedMap.set(bookList.books[i].Reihe.split(", ")[1], bookList.books[i].Titel); // FIXME: enable re-reads
+        sortedMap.set(bookList.books[i].Reihe.split(", ")[1], [bookList.books[i].Titel, bookList.books[i].Sprache, bookList.books[i].beendet.split(" ")[2]]);
     }
     numbers.sort();
     for (let entry of numbers) {
-        sortedArray.push(sortedMap.get(entry))
+        sortedArray.push(sortedMap.get(entry));
     }
 
-    console.log(sortedArray);
     return sortedArray;
 }
 
 /**
- * Sorts the given array alphabetically and returns the sorted array.
+ * Sorts the given array alphabetically (for either the first or the second letter in the title) and returns the sorted array.
  * 
  * Used in sorting for the internal sorting of the book in a given header.
- * Entries that do not start with a letter defined in the alphabet (variable) are added to the end.
+ * Entries whose second letter is not a letter defined in the alphabet (variable) are added to the end.
  * @param {string[]} array - array to be sorted
+ * @param {number} [index=0] - index of the letter to sort for; defaults to 0 (first letter)
  * @returns sorted array
  */
-function sortAlphabeticallyArray(array) {
+function sortAlphabeticallyArray(array, index = 0) {
     let sortedArray = [];
     for (let i = 0; i < alphabet.length; i++) {
-        let match = array.filter((element) => element[0] == alphabet[i].toUpperCase());
-        if (match) {
+        let match = array.filter((element) => element[0][index].toLowerCase() == alphabet[i]);
+        if (match.length) {
             for (let entry of match) {
                 sortedArray.push(entry);
                 array.splice(array.indexOf(entry), 1);
@@ -786,7 +795,7 @@ function sortAlphabeticallyArray(array) {
         }
     }
     for (let entry of array) {
-        sortedArray.push(entry); // FIXME: enable re-reads
+        sortedArray.push(entry);
     }
     return sortedArray;
 }
@@ -984,8 +993,8 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    bookList.books[index] = book; // FIXME:
-    // bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
+    // bookList.books[index] = book; // FIXME:
+    bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
 
     sortJSON(book);
     updateJSON();
