@@ -192,8 +192,12 @@ function readDatalistOptions() {
 function updateDatalistOptions(newBook) {
     let i = 0;
     Object.keys(bookList.datalists).forEach(function (key) {
-        if (newBook[datalists[i]] && !bookList.datalists[key].find((entry) => entry == newBook[datalists[i]])) {
-            bookList.datalists[key].push(newBook[datalists[i]]);
+        let newEntry = newBook[datalists[i]];
+        if (datalists[i] == "Reihe") {
+            newEntry = newBook[datalists[i]].split(", ")[0];
+        }
+        if (newEntry && !bookList.datalists[key].find((entry) => entry == newEntry)) {
+            bookList.datalists[key].push(newEntry);
         }
         i++;
     });
@@ -205,17 +209,17 @@ function updateDatalistOptions(newBook) {
  */
 function getBookFromForm() {
     return {
-        Titel: document.getElementById("title").value,
-        Autor: document.getElementById("author").value,
-        Sprache: document.getElementById("language").value,
-        Ort: document.getElementById("location").value,
+        Titel: document.getElementById("title").value.trim(),
+        Autor: document.getElementById("author").value.trim(),
+        Sprache: document.getElementById("language").value.trim(),
+        Ort: document.getElementById("location").value.trim(),
         angefangen: `${parts.indexOf(document.getElementById("startPart").value)} ${months.indexOf(document.getElementById("startMonth").value) + 1} ${document.getElementById("startYear").value}`,
         beendet: `${parts.indexOf(document.getElementById("endPart").value)} ${months.indexOf(document.getElementById("endMonth").value) + 1} ${document.getElementById("endYear").value}`,
-        Genre: document.getElementById("genre").value,
-        Reihe: document.getElementById("series").value,
+        Genre: document.getElementById("genre").value.trim(),
+        Reihe: document.getElementById("series").value.trim(),
         Erscheinungsjahr: document.getElementById("releaseYear").value,
-        Land: document.getElementById("country").value,
-        Notizen: document.getElementById("notes").value
+        Land: document.getElementById("country").value.trim(),
+        Notizen: document.getElementById("notes").value.trim()
     };
 }
 

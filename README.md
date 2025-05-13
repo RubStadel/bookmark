@@ -64,7 +64,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] ~~Anzeige von Bildern auf der Detailseite von Büchern~~
 - [x] Testinstallation, um herauszufinden, wo Daten in Android gespeichert werden ~~(so, dass man darauf zugreifen kann)~~
 - [x] Mehrere Einträge pro Buch (Titel) ermöglichen (relevant bei Re-Reads)
-- [ ] bei allen Eingaben trailing spaces entfernen
+- [x] bei allen Eingaben trailing spaces entfernen
 
 ### Bugfixes
 
@@ -112,4 +112,4 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Animationen beim Anzeigen der Suchleiste
 - [ ] ~~Animationen bei Anwenden einer neuen Sortierweise~~
 - [ ] ~~komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)~~
-- [ ] Reihe-Input aufteilen und neuen Zahlen-Input für Teil erstellen
+- [x] Reihe-Input beim Aktualisieren der Datalist-Optionen aufteilen
