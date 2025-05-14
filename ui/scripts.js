@@ -82,6 +82,15 @@ document.getElementById("menuButton").addEventListener('click', toggleBookForm);
 function loadBookList() {
     document.getElementById("bookList").replaceChildren();
 
+    if (!sorted.size) {
+        let text = document.createElement("h3");
+        text.innerHTML = "klicken, um ein Buch <br>hinzuzufügen <br><br>oder <br><br>halten, um das ganze <br>Menü anzuzeigen";
+        let arrow = document.createElement("span");
+        arrow.innerHTML = "&#x219C;";
+        document.getElementById("bookList").append(text, arrow);
+        return;
+    }
+
     for (let header of sorted.keys()) {
         let headerElement = document.createElement("h1");
         let count = document.createElement("small");

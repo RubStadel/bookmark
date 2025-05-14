@@ -32,6 +32,24 @@ body::-webkit-scrollbar {
     font-family: "Outfit", sans-serif;
 }
 
+h3 {
+    height: 82.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+span {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    font-weight: bold;
+    font-size: 7.5rem;
+    transform: rotate(200deg);
+}
+
 h2,
 label {
     font-size: 1rem;
