@@ -50,6 +50,7 @@ document.getElementById("bookList").addEventListener('touchend', () => { lastScr
 document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
+document.getElementById("startYear").addEventListener('input', () => { document.getElementById("endYear").value = document.getElementById("startYear").value; });
 
 // onclick functions of the sorting buttons
 document.getElementById("chronologisch").addEventListener('click', () => { sortByDate("read", sortingStates.get(0)); sortingStates.set(0, !sortingStates.get(0)) });
@@ -170,7 +171,7 @@ function toggleBookForm() {
         formDiv.style.top = "0%";
         bookFormVisible = true;
         readDatalistOptions();
-        document.getElementById("title").focus();
+        setTimeout(() => { document.getElementById("title").focus(); }, 500);
         document.getElementById("menuButton").style.opacity = "0";
         document.getElementById("submitButton").addEventListener('click', addBook2List);
         window.androidBackCallback = closeForm;
