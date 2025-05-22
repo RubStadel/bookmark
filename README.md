@@ -115,3 +115,4 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [ ] ~~Animationen bei Anwenden einer neuen Sortierweise~~
 - [ ] ~~komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)~~
 - [x] Reihe-Input beim Aktualisieren der Datalist-Optionen aufteilen
+- [ ] Dropdowns (datalist und select options) visuell anpassen [StackOverflow Anregung](https://stackoverflow.com/questions/13693482/is-there-a-way-to-apply-a-css-style-on-html5-datalist-options "datalist styling") (?)

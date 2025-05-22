@@ -50,6 +50,7 @@ document.getElementById("bookList").addEventListener('touchend', () => { lastScr
 document.getElementById("search").addEventListener('blur', hideSearchBar);
 document.getElementById("sortBack").addEventListener('click', hideSortPopup);
 document.getElementById("search").addEventListener('input', search);
+document.getElementById("startMonth").addEventListener('input', () => { document.getElementById("endMonth").value = document.getElementById("startMonth").value; });
 document.getElementById("startYear").addEventListener('input', () => { document.getElementById("endYear").value = document.getElementById("startYear").value; });
 
 // onclick functions of the sorting buttons
@@ -106,6 +107,8 @@ function loadBookList() {
             document.getElementById("bookList").append(book);
         }
     }
+
+    window.scrollTo(0, 0);
 }
 
 /**
@@ -173,6 +176,7 @@ function toggleBookForm() {
         readDatalistOptions();
         setTimeout(() => { document.getElementById("title").focus(); }, 500);
         document.getElementById("menuButton").style.opacity = "0";
+        document.getElementById("submitButton").removeEventListener('click', editBookDetails);
         document.getElementById("submitButton").addEventListener('click', addBook2List);
         window.androidBackCallback = closeForm;
     }
@@ -978,6 +982,7 @@ function toggleEditForm() {
         fillInEditForm();
         document.getElementById("title").focus();
         document.getElementById("editButton").style.opacity = "0";
+        document.getElementById("submitButton").removeEventListener('click', addBook2List);
         document.getElementById("submitButton").addEventListener('click', editBookDetails);
         window.androidBackCallback = closeForm;
     }
@@ -1047,7 +1052,7 @@ function editBookDetails() {
 
     document.getElementById("bookForm").reset();
 
-    bookList.books = bookList.books.filter(bookElement => bookList.books.indexOf(bookElement) != index);
+    bookList.books.splice(index, 1);
 
     sortJSON(book);
     updateJSON();
