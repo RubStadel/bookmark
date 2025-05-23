@@ -120,3 +120,4 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Nach oben wischen soll Suchleiste wieder schließen
 - [x] Snackbar für Importier-Vorgang (auskommentiert, weil für "kleine" importierte JSON-Dateien (25 Bücher) irrelevant)
 - [x] Back-Button führt bei nicht-chronologischer Sortierung zu chronologischer Sortierung
+- [x] Icon: `<ion-icon name="book"></ion-icon>` in Weiß
