@@ -15,6 +15,7 @@ let bookDetailsVisible = false;
 let lastScrollTop = 0;
 let lastY = 0;
 let sorted = new Map();
+let sortingMethod = "chronologisch";
 
 const datalists = ["Autor", "Sprache", "Genre", "Reihe", "Land"];
 const bottomElements = ["genre", "series", "releaseYear", "country", "notes"];
@@ -637,8 +638,10 @@ function sortByDate(date = "read", isReversed = false) {
     }
     if (date == "release") {
         sorted = sortChronologically(isReversed);
+        sortingMethod = "release";
         window.androidBackCallback = sortByDate;
     } else {
+        sortingMethod = "chronologisch";
         window.androidBackCallback = () => { return true };
     }
 
@@ -716,6 +719,7 @@ function sortByLetter(parameter, isReversed = false) {
         sorted = sortAlphabetically(parameter, isReversed);
     }
 
+    sortingMethod = "letter";
     window.androidBackCallback = sortByDate;
     loadBookList();
 }
@@ -897,7 +901,11 @@ function closeBookDetails() {
     document.getElementById("bookDetails").style.right = "150%";
     document.getElementById("menuButton").style.opacity = "1";
     bookDetailsVisible = false;
-    window.androidBackCallback = () => { return true };
+    if (sortingMethod == "chronologisch") {
+        window.androidBackCallback = () => { return true };
+    } else {
+        window.androidBackCallback = sortByDate;
+    }
 
     return false;
 }

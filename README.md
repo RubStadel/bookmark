@@ -48,6 +48,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 
 ## ToDo
 
+- [ ] **schöne neue README schreiben und diese Datei als notes.md behalten**
+
 ### Grundlegende Features
 
 - [x] am Anfang ganze Datenbank aus json einlesen
@@ -88,6 +90,8 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Wenn man den Titel ändert wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
 - [x] Wenn man Details bearbeitet hat führt der Back-Button nicht zur Hauptseite zurück (wird in sortByDate überschrieben)
 - [x] Beim Anwenden einer neuen Sortierweise ganz nach oben scrollen
+- [?] Android Back Button schließt App, wenn man nach Erscheinungsjahr sortiert
+- [?] Android Back Button schließt App, wenn man etwas gesucht hat und bookDetails geöffnet hatte (in closeBookDetails wird es zurückgesetzt)
 
 ### UI (Seiten, etc.)
 
