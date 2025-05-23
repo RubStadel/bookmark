@@ -108,7 +108,7 @@ function loadBookList() {
         }
     }
 
-    window.scrollTo(0, 0);
+    document.getElementById("bookList").scrollTo(0, 0);
 }
 
 /**
@@ -442,6 +442,8 @@ function checkSearchBar(e) {
     let scrollTop = document.getElementById("bookList").scrollTop;
     if (scrollTop == 0 && y > lastY && lastY != 0 && lastScrollTop == 0) {
         revealSearchBar();
+    } else if (y < lastY && lastY != 0 && lastScrollTop == 0) {
+        hideSearchBar();
     }
     lastY = y <= 0 ? 0 : y;
 }
@@ -463,6 +465,7 @@ function revealSearchBar() {
  * Hides the search bar by moving it up off screen.
  */
 function hideSearchBar() {
+    document.getElementById("search").blur();
     document.getElementById("search").style.top = "-5vh";
     document.getElementById("bookList").style.paddingTop = "0vh";
     document.getElementById("menuButton").style.opacity = "1";
@@ -506,6 +509,7 @@ function search() {
  * Sorts and updates the local JSON and redraws the shown bookList via sortByDate().
  */
 async function importJSON() {
+    // showSnackbar();
     let imported = "";
     await invoke('import_json').then((fileContent) => { imported = JSON.parse(fileContent) });
     let count = 0;
@@ -543,6 +547,18 @@ async function importJSON() {
         sortByDate();
     }
     alert(`Es wurden ${count} Bücher eingelesen.`);
+}
+
+/**
+ * Reveals the snackbar that informs the user that the import is in progress.
+ * Snackbar automatically closes after two seconds.
+ * 
+ * Currently unused because the time it takes to import small JSON files is so short that it is not neccessary/useful to show a snackbar.
+ */
+function showSnackbar() {
+    let snack = document.getElementById("snackbar");
+    snack.className = "show";
+    setTimeout(() => { snack.className = snack.className.replace("show", ""); }, 2000);
 }
 
 /**
@@ -588,7 +604,6 @@ function hideSortPopup() {
     for (let button of document.getElementsByClassName("sortButtons")) {
         button.style.opacity = "0";
     }
-    window.androidBackCallback = () => { return true };
 }
 
 /// sorting functions
@@ -622,9 +637,11 @@ function sortByDate(date = "read", isReversed = false) {
     }
     if (date == "release") {
         sorted = sortChronologically(isReversed);
+        window.androidBackCallback = sortByDate;
+    } else {
+        window.androidBackCallback = () => { return true };
     }
 
-    window.androidBackCallback = () => { return true };
     loadBookList();
 }
 
@@ -699,6 +716,7 @@ function sortByLetter(parameter, isReversed = false) {
         sorted = sortAlphabetically(parameter, isReversed);
     }
 
+    window.androidBackCallback = sortByDate;
     loadBookList();
 }
 

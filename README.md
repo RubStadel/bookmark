@@ -87,6 +87,7 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Beim Bearbeiten von Büchern wird neue Info angehängt, statt zu überschreiben (alter Eintrag wird nicht aus bookList gelöscht)
 - [x] Wenn man den Titel ändert wird der Knopf in der Bücherliste nicht angepasst und führt daher ins Nichts
 - [x] Wenn man Details bearbeitet hat führt der Back-Button nicht zur Hauptseite zurück (wird in sortByDate überschrieben)
+- [x] Beim Anwenden einer neuen Sortierweise ganz nach oben scrollen
 
 ### UI (Seiten, etc.)
 
@@ -109,10 +110,13 @@ Also used as a testrun for app development using Tauri (Rust) and a JS, HTML, CS
 - [x] Möglichkeit, json-Datei zu im- und exportieren
   - [x] Export (inkl. Nachricht an User wo es gespeichert wurde)
   - [x] Import (Duplikate vermeiden)
-- [ ] Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)
+- [ ] ~~Animationen beim Öffnen der App (siehe Notizen; Splashscreen?)~~
 - [x] Animationen bei Seitenwechsel
 - [x] Animationen beim Anzeigen der Suchleiste
 - [ ] ~~Animationen bei Anwenden einer neuen Sortierweise~~
 - [ ] ~~komplexerer Modus, wo auch Cover/Bilder in der Liste (Grid) angezeigt werden (?)~~
 - [x] Reihe-Input beim Aktualisieren der Datalist-Optionen aufteilen
 - [ ] Dropdowns (datalist und select options) visuell anpassen [StackOverflow Anregung](https://stackoverflow.com/questions/13693482/is-there-a-way-to-apply-a-css-style-on-html5-datalist-options "datalist styling") (?)
+- [x] Nach oben wischen soll Suchleiste wieder schließen
+- [x] Snackbar für Importier-Vorgang (auskommentiert, weil für "kleine" importierte JSON-Dateien (25 Bücher) irrelevant)
+- [x] Back-Button führt bei nicht-chronologischer Sortierung zu chronologischer Sortierung
