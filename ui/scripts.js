@@ -498,7 +498,7 @@ function search() {
         });
     }
 
-    window.androidBackCallback = sortByDate;
+    sortingMethod = "search";
 }
 
 /**
@@ -895,6 +895,9 @@ function openBookDetails() {
 
 /**
  * Closes the bookDetails "page".
+ * 
+ * Sets the function of the android back button to the desired action.
+ * If the sorting was anything other than default (meaning one of the sorting ways or after having searched), it will return to the default book list.
  * @returns always false so that the default android back function will be prevented
  */
 function closeBookDetails() {
